@@ -13,6 +13,13 @@ const client = new Client({
     ]
 });
 
+//-----------commands------------
+
+//require("./deploy-commands.js");
+
+//--------------------コマンドを読み込む--------------------------
+//スラッシュコマンド
+
 const commandDir = './commands';
 const AllCommands = {};
 const pubCommands = {};
@@ -33,7 +40,7 @@ for (const dir of commandDirList) {
         const info = require(`${commandDir}/${dir}/${infoFileName}`);
         const gldCommands = {};
         for (const file of gldCommandFiles) {
-            const command = require(`./commands/${dir}/${file}`);
+            const command = require(`${commandDir}/${dir}/${file}`);
             gldCommands[command.data.name] = command;
             AllCommands[command.data.name] = command;
         }
