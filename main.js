@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client, Events, GatewayIntentBits} = require('discord.js');
+const { Client, Events, GatewayIntentBits, PermissionsBitField,AttachmentBuilder,EmbedBuilder, StringSelectMenuBuilder,} = require('discord.js');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -26,21 +26,21 @@ const pubCommands = {};
 const filesOfProject = fs.readdirSync(commandDir)
 const pubCommandFiles = filesOfProject.filter(file => file.endsWith('.js'));
 for (const file of pubCommandFiles) {
-    const command = require(path.join(commandDir, file));
+    const command = require(`${commandDir}/${file}`);
     pubCommands[command.data.name] = command;
     AllCommands[command.data.name] = command;
 }
 
 const infoFileName = "info.js";
 const prvCommands = {};
-const commandDirList = filesOfProject.filter(dir => fs.statSync(path.join(commandDir, dir)).isDirectory())
+const commandDirList = filesOfProject.filter(file => fs.statSync(path.join(commandDir, file)).isDirectory())
 for (const dir of commandDirList) {
-    const gldCommandFiles = fs.readdirSync(path.join(commandDir, dir)).filter(file => file.endsWith('.js') && file !== infoFileName);
-    if (fs.existsSync(path.join(commandDir,dir,infoFileName))) {
-        const info = require(path.join(commandDir,dir,infoFileName));
+    const gldCommandFiles = fs.readdirSync(`${commandDir}/${dir}`).filter(file => file.endsWith('.js') && file !== infoFileName);
+    if (fs.existsSync(`${commandDir}/${dir}/${infoFileName}`)) {
+        const info = require(`${commandDir}/${dir}/${infoFileName}`);
         const gldCommands = {};
         for (const file of gldCommandFiles) {
-            const command = require(path.join(commandDir,dir,file));
+            const command = require(`${commandDir}/${dir}/${file}`);
             gldCommands[command.data.name] = command;
             AllCommands[command.data.name] = command;
         }
