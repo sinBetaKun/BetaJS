@@ -1,6 +1,5 @@
-const {SlashCommandBuilder} = require('discord.js');
+const {SlashCommandBuilder,PermissionFlagsBits} = require('discord.js');
 const CommandName = "authenticate_member";
-const AUTHOR = require("../../author");
 const INFO = require("./info");
 
 module.exports = {
@@ -24,11 +23,12 @@ module.exports = {
         .setName('primary')
         .setDescription('メイン垢を指定します。')
         .setRequired(false)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+  ,
   async execute(client, interaction) {
     if (!interaction.isChatInputCommand()) return;
     if (interaction.commandName !== CommandName) return;
-    if (!(AUTHOR.includes(interaction.member.id))) return interaction.reply({ content: 'コマンド権限がありません。', ephemeral: true });
     const member = interaction.options.getMember('member');
     const message = interaction.options.getString('message');
     const primary = interaction.options.getMember('primary');
