@@ -13,7 +13,7 @@ const {
       .setName("modal")
       .setDescription("モーダルを表示するよ!"),
     // スラッシュコマンドを受け取ると以下が実行される
-    async execute(interaction) {
+    async execute(client, interaction) {
       if (!interaction.isChatInputCommand()) return;
   
       if (interaction.commandName === "modal") {
