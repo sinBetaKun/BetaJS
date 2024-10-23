@@ -8,10 +8,6 @@ const SubCommandName = {
 const INFO = require("./info");
 const all_message_fetcher = require("../../beta_modules/all_message_fetcher");
 const ERR_MESSAGE = {
-    lost_role_dsc_ch : {
-        discord : 'ロール説明チャンネルが見つかりませんでした。',
-        console : "couldn't find the channel. error:",
-    },
     undef_sub_cmd : {
         discord : 'サブコマンドが定義されていません。',
         console : "the sub-command isn't defind. ",
@@ -34,7 +30,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName(CommandName)
         .setDescription('ロールマネージャー')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addSubcommand(subcommand =>
             subcommand
                 .setName(SubCommandName.creat_desc)
@@ -142,36 +138,21 @@ module.exports = {
                     }
                     await interaction.reply({ content: 'JSONファイルが正常に処理されました。', ephemeral: true });
                     return;
-                    // .then(async channel => {
-                        
-                    // })
-                    // .catch(async error => {
-                    //     await interaction.reply({ content: ERR_MESSAGE.lost_role_dsc_ch, ephemeral: true });
-                    //     console.error(ERR_MESSAGE.lost_role_dsc_ch.console, error);
-                    //     return;
-                    // });
                 } catch (error) {
                     console.error('JSONファイルの処理中にエラーが発生しました:', error);
                     return interaction.reply({ content: 'JSONファイルの読み込みに失敗しました。', ephemeral: true });
                 }
-                break;
             case SubCommandName.del_desc:
-                client.channels.cache.get(INFO.chIDs.role_description)
-                .then(async channel => {
-                    const messages = all_message_fetcher.execute(channel);
-                    const messages2 = messages.filter((element) => {
-                        if (element.embeds.length === 0) return false;
-                        return element.embeds[0].description === `<@&${role.id}>`;
-                    });
-                    channel.bulkDelete(messages2);
-                    return;
-                })
-                .catch(async error => {
-                    await interaction.reply({ content: ERR_MESSAGE.lost_role_dsc_ch, ephemeral: true });
-                    console.error(ERR_MESSAGE.lost_role_dsc_ch.console, error);
-                    return;
+                const role = interaction.options.getRole('role');
+                const channel = client.channels.cache.get(INFO.chIDs.role_description)
+                const messages = await all_message_fetcher.execute(channel);
+                const messages2 = messages.filter((element) => {
+                    if (element.embeds.length === 0) return false;
+                    return element.embeds[0].description === `<@&${role.id}>`;
                 });
-                break;
+                channel.bulkDelete(messages2);
+                await interaction.reply({ content: 'ロール説明埋め込みを削除しました。', ephemeral: true });
+                return;
             default:
                 await interaction.reply({ content: ERR_MESSAGE.undef_sub_cmd.discord, ephemeral: true });
                 console.error(ERR_MESSAGE.undef_sub_cmd.console, `(${sub_command})`);
