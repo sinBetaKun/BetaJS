@@ -130,5 +130,6 @@ dist
 .pnp.*
 yarn.lock
 
-# test folder
+# Other folder
 test/
+stpJson/

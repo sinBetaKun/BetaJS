@@ -109,7 +109,7 @@ module.exports = {
 
                     const role = interaction.options.getRole('role');
                     const embed = new EmbedBuilder()
-                        .setTitle('<|' + role.name + '|>')
+                        .setTitle('<| ' + role.name + ' |>')
                         .setDescription('<@&' + role.id + '>')
                         .setColor(role.hexColor)
                         .addFields(
