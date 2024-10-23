@@ -33,7 +33,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
             ephemeral: true,
         })
     }
-    const command = slashTree["all"][interaction.commandName];
+    const command = slashTree.all[interaction.commandName];
     try {
         await command.execute(client,interaction);
     } catch (error) {

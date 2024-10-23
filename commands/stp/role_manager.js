@@ -34,11 +34,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName(CommandName)
         .setDescription('ロールマネージャー')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
         .addSubcommand(subcommand =>
             subcommand
                 .setName(SubCommandName.creat_desc)
                 .setDescription('ロール説明の追加・編集')
-                .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
                 .addRoleOption(option => 
                     option
                         .setName('role')
@@ -47,7 +47,7 @@ module.exports = {
                 )
                 .addAttachmentOption(option => 
                     option
-                        .setName('json file')
+                        .setName('json_file')
                         .setDescription('埋め込み内容のjsonファイル')
                         .setRequired(true)
                 )
@@ -56,7 +56,6 @@ module.exports = {
             subcommand
                 .setName(SubCommandName.del_desc)
                 .setDescription('ロール説明の削除')
-                .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
                 .addRoleOption(option => 
                     option
                         .setName('role')
@@ -71,8 +70,8 @@ module.exports = {
         const sub_command = interaction.options.getSubcommand();
         switch (sub_command) {
             case SubCommandName.creat_desc:
-                const attachment = interaction.options.getAttachment('json file');
-                if (!attachment || !attachment.url.endsWith('.json')) {
+                const attachment = await interaction.options.getAttachment('json_file');
+                if (!attachment || !attachment.name.endsWith('.json')) {
                     await interaction.reply({ content: ERR_MESSAGE.att_isnt_json.discord, ephemeral: true });
                     console.error(ERR_MESSAGE.att_isnt_json.console);
                     return;
@@ -97,45 +96,61 @@ module.exports = {
                         return;
                     }
 
-                    const role = interaction.options.getName('role');
+                    const embedFields = {
+                        definition : '',
+                        acquisition : '',
+                        mention : '',
+                        authority : '',
+                    }
+
+                    for (const key in embedFields) {
+                        const content = [];
+                        for(let i = 0; i < jsonData[key].length; i++){
+                            content.push('* ' + jsonData[key][i]);
+                        }
+                        embedFields[key] = content.join('\n');
+                    }
+
+                    const role = interaction.options.getRole('role');
                     const embed = new EmbedBuilder()
                         .setTitle('<|' + role.name + '|>')
                         .setDescription('<@&' + role.id + '>')
                         .setColor(role.hexColor)
                         .addFields(
                             { name: '\u200b', value: '\u200b' },
-                            { name: '定義', value: jsonData.definition, inline: true  },
-                            { name: 'ロール取得方法', value: jsonData.acquisition, inline: true  },
-                            { name: 'メンション', value: jsonData.mention, inline: true },
-                            { name: '権限', value: jsonData.authority, inline: true },
+                            { name: '定義', value: embedFields.definition, inline: true  },
+                            { name: 'ロール取得方法', value: embedFields.acquisition, inline: true  },
+                            { name: 'メンション', value: embedFields.mention, inline: true },
+                            { name: '権限', value: embedFields.authority, inline: true },
                         );
 
-                    client.channels.cache.get(INFO.chIDs.role_description)
-                    .then(async channel => {
-                        const messages = await all_message_fetcher.execute(channel);
-                        const messages2 = messages.filter((element) => {
-                            if (element.embeds.length === 0) return false;
-                            return element.embeds[0].description === `<@&${role.id}>`;
-                        });
-                        if (messages2.length > 1) {
-                            await interaction.reply({ content: ERR_MESSAGE.dup_exist_dsc.discord, ephemeral: true });
-                            console.error(ERR_MESSAGE.dup_exist_dsc.console);
-                            return;
-                        }
-                        if (messages2.length > 0) {
-                            const message = messages2[0];
-                            await message.edit({ embeds : [embed] });
-                        } else {
-                            channel.send({ embeds : [embed] });
-                        }
-                        await interaction.reply({ content: 'JSONファイルが正常に処理されました。', ephemeral: true });
-                        return;
-                    })
-                    .catch(async error => {
-                        await interaction.reply({ content: ERR_MESSAGE.lost_role_dsc_ch, ephemeral: true });
-                        console.error(ERR_MESSAGE.lost_role_dsc_ch.console, error);
-                        return;
+                    const channel = client.channels.cache.get(INFO.chIDs.role_description)
+                    const messages = await all_message_fetcher.execute(channel);
+                    const messages2 = messages.filter((element) => {
+                        if (element.embeds.length === 0) return false;
+                        return element.embeds[0].description === `<@&${role.id}>`;
                     });
+                    if (messages2.length > 1) {
+                        await interaction.reply({ content: ERR_MESSAGE.dup_exist_dsc.discord, ephemeral: true });
+                        console.error(ERR_MESSAGE.dup_exist_dsc.console);
+                        return;
+                    }
+                    if (messages2.length > 0) {
+                        const message = messages2[0];
+                        await message.edit({ embeds : [embed] });
+                    } else {
+                        channel.send({ embeds : [embed] });
+                    }
+                    await interaction.reply({ content: 'JSONファイルが正常に処理されました。', ephemeral: true });
+                    return;
+                    // .then(async channel => {
+                        
+                    // })
+                    // .catch(async error => {
+                    //     await interaction.reply({ content: ERR_MESSAGE.lost_role_dsc_ch, ephemeral: true });
+                    //     console.error(ERR_MESSAGE.lost_role_dsc_ch.console, error);
+                    //     return;
+                    // });
                 } catch (error) {
                     console.error('JSONファイルの処理中にエラーが発生しました:', error);
                     return interaction.reply({ content: 'JSONファイルの読み込みに失敗しました。', ephemeral: true });
