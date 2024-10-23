@@ -117,11 +117,10 @@ module.exports = {
                         .setDescription('<@&' + role.id + '>')
                         .setColor(role.hexColor)
                         .addFields(
-                            { name: '\u200b', value: '\u200b' },
-                            { name: '定義', value: embedFields.definition, inline: true  },
-                            { name: 'ロール取得方法', value: embedFields.acquisition, inline: true  },
-                            { name: 'メンション', value: embedFields.mention, inline: true },
-                            { name: '権限', value: embedFields.authority, inline: true },
+                            { name: '定義', value: embedFields.definition},
+                            { name: 'ロール取得方法', value: embedFields.acquisition},
+                            { name: 'メンション', value: embedFields.mention},
+                            { name: '権限', value: embedFields.authority},
                         );
 
                     const channel = client.channels.cache.get(INFO.chIDs.role_description)
