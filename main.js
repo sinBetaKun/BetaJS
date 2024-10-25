@@ -1,4 +1,4 @@
-const { Client, Events, GatewayIntentBits} = require('discord.js');
+const { Client, Partials, Events, GatewayIntentBits} = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -7,18 +7,24 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMessages, 
-    ]
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+    ],
+    partials: [
+        Partials.Message,
+        Partials.Channel, 
+        Partials.Reaction,
+    ],
 });
 
 //-------------------<|commands|>-----------------------//
 const cmd_mnger = require("./command_manager");
 const slashTree = cmd_mnger.read_from_dir("./commands");
-
+require("./event_manager").set(client, "./events");
 
 
 client.once(Events.ClientReady, async (c) => {
-    await cmd_mnger.set_slash(client, slashTree);
+    await cmd_mnger.set(client, slashTree);
     console.log("setted Commands.");
     console.log(`Ready! (${c.user.tag})`);
 });

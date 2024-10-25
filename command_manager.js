@@ -40,7 +40,7 @@ module.exports = {
         }
         return Tree;
     },
-    async set_slash(client, Tree) {
+    async set(client, Tree) {
         if(!("all" in Tree && "pub" in Tree && "prv" in Tree)){
             console.log("Invalid Command Tree.")
             return;
