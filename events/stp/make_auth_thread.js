@@ -34,13 +34,15 @@ module.exports = {
             permissionsInfo += `  * 許可項目:\n    ${overwrite.allow.toArray().join(', ')}\n`;
             permissionsInfo += `  * 拒否項目:\n    ${overwrite.deny.toArray().join(', ')}\n`;
         });
-        const topic = (channel.topic)? channel.topic : '（トピック無し）'
+        if (permissionOverwrites.size === 0) {
+            permissionsInfo = '権限設定なし';
+        } 
         return new EmbedBuilder()
             .setColor(0x00FF00)
             .setTimestamp()
             .setTitle(title)
             .addFields(
-                { name: 'チャンネルのトピック', value: topic},
+                { name: 'チャンネルのトピック', value: channel.topic || '（トピック無し）'},
                 { name: '権限' , value: permissionsInfo}
             )
     }

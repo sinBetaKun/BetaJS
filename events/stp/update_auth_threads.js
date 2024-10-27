@@ -4,7 +4,7 @@ const INFO = require('./info');
 module.exports = {
     name: Events.ChannelUpdate,
     async execute(oldChannel, newChannel, client) {
-        if (newChannel.type === ChannelType.GuildCategory) return;
+        if (newChannel.type !== ChannelType.GuildText) return;
         if (newChannel.guild.id !== INFO.gldID) return;
         const forumChannel = client.channels.cache.get(INFO.chIDs.authority_forum);
         if (!forumChannel || forumChannel.type !== ChannelType.GuildForum) {
