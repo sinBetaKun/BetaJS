@@ -28,14 +28,19 @@ module.exports = {
     make_description(title, channel) {
         const permissionOverwrites = channel.permissionOverwrites.cache;
         const permissionsInfo = this.make_pmInfo_field(permissionOverwrites);
-        return new EmbedBuilder()
+        const embed = new EmbedBuilder()
             .setColor(0x00FF00)
             .setTimestamp()
             .setTitle(title)
             .addFields(
                 { name: 'チャンネルのトピック', value: channel.topic || '（トピック無し）'},
                 { name: '権限' , value: permissionsInfo}
-            )
+            );
+        if (channel.isTextBased()){
+            const slowmode = channel.rateLimitPerUser;
+            embed.addFields({ name: '低速モード' , value: `${slowmode}秒`});
+        }
+        return embed;
     },
     check_type(channel) {
         return (channel.type === 
@@ -50,8 +55,8 @@ module.exports = {
 
         permissionOverwrites.forEach(overwrite => {
             permissionsInfo += `1. <${overwrite.type === 0 ? '@&' : '@'}${overwrite.id}>\n`;
-            permissionsInfo += `  * 許可項目:\n    ${overwrite.allow.toArray().join(', ')}\n`;
-            permissionsInfo += `  * 拒否項目:\n    ${overwrite.deny.toArray().join(', ')}\n`;
+            permissionsInfo += `  * 許可項目: ${overwrite.allow.toArray().join(', ')}\n`;
+            permissionsInfo += `  * 拒否項目: ${overwrite.deny.toArray().join(', ')}\n`;
         });
         if (permissionOverwrites.size === 0) {
             permissionsInfo = '権限設定なし';
