@@ -4,7 +4,7 @@ const INFO = require('./info');
 module.exports = {
     name: Events.ChannelCreate,
     async execute(channel, client) {
-        if (channel.type !== ChannelType.GuildText) return;
+        if (!this.check_type(channel)) return;
         if (channel.guild.id !== INFO.gldID) return;
         const forumChannel = client.channels.cache.get(INFO.chIDs.authority_forum);
         if (!forumChannel || forumChannel.type !== ChannelType.GuildForum) {
@@ -45,5 +45,13 @@ module.exports = {
                 { name: 'チャンネルのトピック', value: channel.topic || '（トピック無し）'},
                 { name: '権限' , value: permissionsInfo}
             )
+    },
+    check_type(channel) {
+        return (channel.type === 
+            ChannelType.GuildText | 
+            ChannelType.GuildForum | 
+            ChannelType.GuildAnnouncement | 
+            ChannelType.GuildStageVoice
+        )
     }
 };

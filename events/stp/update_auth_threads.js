@@ -1,10 +1,11 @@
 const { Events, ChannelType, EmbedBuilder } = require('discord.js');
 const INFO = require('./info');
+const Maker = require('./make_auth_thread');
 
 module.exports = {
     name: Events.ChannelUpdate,
     async execute(oldChannel, newChannel, client) {
-        if (newChannel.type !== ChannelType.GuildText) return;
+        if (!Maker.check_type(newChannel)) return;
         if (newChannel.guild.id !== INFO.gldID) return;
         const forumChannel = client.channels.cache.get(INFO.chIDs.authority_forum);
         if (!forumChannel || forumChannel.type !== ChannelType.GuildForum) {
@@ -25,14 +26,13 @@ module.exports = {
             break;
         }
         if (!targetThread) {
-            await require('./make_auth_thread').execute(newChannel, client);
+            await Maker.execute(newChannel, client);
             return;
         }
         try {
             await targetThread.setName(`『${newChannel.name}』`);
             targetThread.send({ embeds: [
-                require('./make_auth_thread')
-                    .make_description(`<#${newChannel.id}> が更新されました。`, newChannel)
+                Maker.make_description(`<#${newChannel.id}> が更新されました。`, newChannel)
             ], });
             INFO.send_log(`<#${newChannel.id}>の情報を更新しました。\n詳細はスレッド<#${targetThread.id}>にてご確認ください。`, client);
         } catch (error) {
