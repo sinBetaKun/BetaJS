@@ -3,7 +3,7 @@ const INFO = require('./info');
 
 module.exports = {
     name: Events.MessageReactionAdd,
-    async execute(reaction, user, client) {
+    async execute(reaction, user) {
         const message = await reaction.message.fetch();
         const member = message.guild.members.resolve(user);
         if (message.channel.id === INFO.chIDs.role_description) {

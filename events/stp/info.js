@@ -3,6 +3,7 @@ module.exports = {
     chIDs : {
         role_description : "1292317475974680636",
         log : "1299245707848585236",
+        authority_forum : "1292318672026865735",
     },
     roles : {
         choices : {
@@ -18,4 +19,14 @@ module.exports = {
             },
         },
     },
+    send_err(message, client) {
+        client.channels.cache.get(this.chIDs.log).send({
+            content: message,
+        });
+    },
+    send_log(message, client) {
+        client.channels.cache.get(this.chIDs.log).send({
+            content: message,
+        });
+    }
 }

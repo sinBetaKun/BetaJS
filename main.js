@@ -20,6 +20,8 @@ const client = new Client({
 //-------------------<|commands|>-----------------------//
 const cmd_mnger = require("./command_manager");
 const slashTree = cmd_mnger.read_from_dir("./commands");
+
+//--------------------<|events|>------------------------//
 require("./event_manager").set(client, "./events");
 
 
