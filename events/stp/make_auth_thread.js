@@ -27,16 +27,7 @@ module.exports = {
     },
     make_description(title, channel) {
         const permissionOverwrites = channel.permissionOverwrites.cache;
-        let permissionsInfo = '';
-
-        permissionOverwrites.forEach(overwrite => {
-            permissionsInfo += `1. <${overwrite.type === 0 ? '@&' : '@'}${overwrite.id}>\n`;
-            permissionsInfo += `  * 許可項目:\n    ${overwrite.allow.toArray().join(', ')}\n`;
-            permissionsInfo += `  * 拒否項目:\n    ${overwrite.deny.toArray().join(', ')}\n`;
-        });
-        if (permissionOverwrites.size === 0) {
-            permissionsInfo = '権限設定なし';
-        } 
+        const permissionsInfo = this.make_pmInfo_field(permissionOverwrites);
         return new EmbedBuilder()
             .setColor(0x00FF00)
             .setTimestamp()
@@ -53,5 +44,18 @@ module.exports = {
             ChannelType.GuildAnnouncement | 
             ChannelType.GuildStageVoice
         )
+    },
+    make_pmInfo_field(permissionOverwrites){
+        let permissionsInfo = '';
+
+        permissionOverwrites.forEach(overwrite => {
+            permissionsInfo += `1. <${overwrite.type === 0 ? '@&' : '@'}${overwrite.id}>\n`;
+            permissionsInfo += `  * 許可項目:\n    ${overwrite.allow.toArray().join(', ')}\n`;
+            permissionsInfo += `  * 拒否項目:\n    ${overwrite.deny.toArray().join(', ')}\n`;
+        });
+        if (permissionOverwrites.size === 0) {
+            permissionsInfo = '権限設定なし';
+        } 
+        return permissionsInfo;
     }
 };

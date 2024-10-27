@@ -7,6 +7,7 @@ module.exports = {
     async execute(oldChannel, newChannel, client) {
         if (!Maker.check_type(newChannel)) return;
         if (newChannel.guild.id !== INFO.gldID) return;
+        if (!this.check_update(oldChannel, newChannel)) return;
         const forumChannel = client.channels.cache.get(INFO.chIDs.authority_forum);
         if (!forumChannel || forumChannel.type !== ChannelType.GuildForum) {
             INFO.send_err(`フォーラムチャンネル<#${INFO.chIDs.authority_forum}>が見つかりませんでした。`, client);
@@ -40,4 +41,20 @@ module.exports = {
             console.error(error);
         }
     },
+    check_update(oldChannel, newChannel){
+        if (oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser) {
+            return true;
+        }
+        if (oldChannel.topic !== newChannel.topic) {
+            return true;
+        }
+        const oldPermissions = Maker.make_pmInfo_field(oldChannel.permissionOverwrites.cache);
+        const newPermissions = Maker.make_pmInfo_field(newChannel.permissionOverwrites.cache);
+        
+        if (oldPermissions !== newPermissions) {
+            return true;
+        }
+
+        return false;
+    }
 };
