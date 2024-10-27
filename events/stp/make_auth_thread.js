@@ -4,7 +4,7 @@ const INFO = require('./info');
 module.exports = {
     name: Events.ChannelCreate,
     async execute(channel, client) {
-        if (channel.type === ChannelType.GuildCategory) return;
+        if (channel.type !== ChannelType.GuildText) return;
         if (channel.guild.id !== INFO.gldID) return;
         const forumChannel = client.channels.cache.get(INFO.chIDs.authority_forum);
         if (!forumChannel || forumChannel.type !== ChannelType.GuildForum) {
@@ -34,12 +34,13 @@ module.exports = {
             permissionsInfo += `  * 許可項目:\n    ${overwrite.allow.toArray().join(', ')}\n`;
             permissionsInfo += `  * 拒否項目:\n    ${overwrite.deny.toArray().join(', ')}\n`;
         });
+        const topic = (channel.topic)? channel.topic : '（トピック無し）'
         return new EmbedBuilder()
             .setColor(0x00FF00)
             .setTimestamp()
             .setTitle(title)
             .addFields(
-                { name: 'チャンネルのトピック', value: channel.topic || '（トピック無し）'},
+                { name: 'チャンネルのトピック', value: topic},
                 { name: '権限' , value: permissionsInfo}
             )
     }
