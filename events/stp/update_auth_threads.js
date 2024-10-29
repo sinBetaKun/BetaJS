@@ -42,7 +42,7 @@ module.exports = {
         }
     },
     check_update(oldChannel, newChannel){
-        if (channel.isTextBased())
+        if (newChannel.isTextBased())
             if (oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser) {
                 return true;
             }
