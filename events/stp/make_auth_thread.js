@@ -38,7 +38,9 @@ module.exports = {
             );
         if (channel.isTextBased()){
             const slowmode = channel.rateLimitPerUser;
-            embed.addFields({ name: '低速モード' , value: `${slowmode}秒`});
+            if (slowmode > 0) {
+                embed.addFields({ name: '低速モード' , value: `${slowmode}秒`});
+            }
         }
         return embed;
     },

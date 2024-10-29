@@ -42,9 +42,10 @@ module.exports = {
         }
     },
     check_update(oldChannel, newChannel){
-        if (oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser) {
-            return true;
-        }
+        if (channel.isTextBased())
+            if (oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser) {
+                return true;
+            }
         if (oldChannel.topic !== newChannel.topic) {
             return true;
         }
