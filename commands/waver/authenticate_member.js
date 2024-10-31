@@ -35,7 +35,8 @@ module.exports = {
         const entCh = await client.channels.cache.get(INFO.chIDs.entrance);
         const logCh = await client.channels.cache.get(INFO.chIDs.menber_log);
         const time = Math.floor(Date.now()/1000);
-        let logMes = `<@${member.id}>\n`;
+        const mention = `<@${member.id}>\n`;
+        let logMes = mention;
         if(primary == null){
             logMes += `>>[primary] <t:${time}:d> <t:${time}:t>`;
             member.roles.add(INFO.role.primary);
@@ -44,6 +45,6 @@ module.exports = {
             member.roles.add(INFO.role.sub);
         }
         logCh.send(logMes);
-        entCh.send(message);
+        entCh.send(mention + message.split('\\n').join('\n'));
     },
 };
