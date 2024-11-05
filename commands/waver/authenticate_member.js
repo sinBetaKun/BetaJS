@@ -46,6 +46,9 @@ module.exports = {
         }
         logCh.send(logMes);
         entCh.send(mention + message.split('\\n').join('\n'));
-        interaction.reply('認証完了。');
+        await interaction.reply({
+            content: "The Command Exited.",
+            ephemeral: true,
+        })
     },
 };

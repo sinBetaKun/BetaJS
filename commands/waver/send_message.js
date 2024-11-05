@@ -46,6 +46,9 @@ module.exports = {
         {
             sendCh.send(content);
         }
-        interaction.reply('メッセージ送信完了。');
+        await interaction.reply({
+            content: "The Command Exited.",
+            ephemeral: true,
+        })
     },
 };
