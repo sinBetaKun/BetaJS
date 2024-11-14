@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+a {
+    text-decoration:none;
+}
+
+a:visited {
+    color:darkcyan;
+}
+
+a:hover {
+    color:palevioletred;
+    text-decoration:underline;
+}
+
+ul {
+    list-style-type:none;
+}
+
+.normal_list {
+    list-style-type:circle;
+}
+
+.red {/*クラス名blueに対して*/
+    color: red;/*色を水色に*/
+    font-weight: bold;/*太字に*/
+}
+
+.warn {
+    color:crimson;
+}
+
+.warn .version {
+    color:white;
+    background-color:black;
+    border: double 3px lightblue;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
