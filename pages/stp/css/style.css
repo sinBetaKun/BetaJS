@@ -1,5 +1,27 @@
 @charset "utf-8";
 
+html,body{
+    height: 100%;
+}
+
+body::after {
+    position: fixed;/*固定配置*/
+    top: 0; left: 0;/*左上に固定*/
+    width: 100%; height: 100%;/*画面全体を覆う*/
+    content: "";
+    z-index: -1;/*背景にするため*/
+    background: #808080;
+    background:-moz-linear-gradient(top, #404040 30%, #b4b4b4 100%);
+    background:-webkit-linear-gradient(top, #404040 30%, #b4b4b4 100%);
+    background:linear-gradient(to bottom, #404040 30%, #b4b4b4 100%);
+}
+
+.paragraph {
+    background:#E0E0F0;
+    margin: 5%;
+    padding: 2%;
+}
+
 a {
     text-decoration:none;
 }
