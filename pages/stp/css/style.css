@@ -39,6 +39,10 @@ ul {
     list-style-type:none;
 }
 
+ul, ol {
+    padding-left: 20px;
+}
+
 .normal_list {
     list-style-type:circle;
 }
