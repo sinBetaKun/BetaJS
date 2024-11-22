@@ -26,6 +26,18 @@ body::after {
     text-shadow: 1px 1px 2px silver;
 }
 
+@media (max-width: 768px) {
+    .headchar {
+        font-size: 150%; /* 横幅が768px以下の場合のフォントサイズ */
+    }
+}
+
+@media (max-width: 480px) {
+    .headchar {
+        font-size: 100%; /* 横幅が480px以下の場合のフォントサイズ */
+    }
+}
+
 .headchar .subhead {
     font-size: 200%;
 }
@@ -42,7 +54,7 @@ body::after {
 }
 
 .table_of_contents::before {
-    font: 150%;
+    font-size: 150%;
     color: #fff;
     text-shadow: 1px 1px 2px black;
     background-color: #88A;
@@ -57,6 +69,20 @@ main {
     margin: 5%;
     margin-top: 1%;
     padding: 2%;
+}
+
+@media (max-width: 768px) {
+    main {
+        font-size: 95%; /* 横幅が768px以下の場合のフォントサイズ */
+        margin: 3%;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        font-size: 60%; /* 横幅が480px以下の場合のフォントサイズ */
+        margin: 1%;
+    }
 }
 
 a {
