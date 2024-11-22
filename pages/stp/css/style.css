@@ -2,6 +2,7 @@
 
 html,body{
     height: 100%;
+    font-family:monospace;
 }
 
 body::after {
@@ -16,9 +17,40 @@ body::after {
     background:linear-gradient(to bottom, #404040 30%, #b4b4b4 100%);
 }
 
-.paragraph {
+.headchar {
+    margin-top: 40px;
+    text-align: center;
+    color: #fff;
+    font-size: 200%;
+    line-height: 0%;
+    text-shadow: 1px 1px 2px silver;
+}
+
+.headchar .subhead {
+    font-size: 200%;
+}
+
+.table_of_contents {
     background:#E0E0F0;
+    border: double #A0A0C0;
+    border-left: solid #A0A0C0 10px;
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    width:fit-content;
+}
+
+.table_of_contents::before {
+    content: "sssssssssssss";
+}
+
+main {
+    background:#D0D0F0;
+    font-size: 120%;
+    line-height: 150%;
     margin: 5%;
+    margin-top: 1%;
     padding: 2%;
 }
 
@@ -37,9 +69,6 @@ a:hover {
 
 ul {
     list-style-type:none;
-}
-
-ul, ol {
     padding-left: 20px;
 }
 
