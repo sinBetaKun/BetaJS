@@ -47,7 +47,6 @@ body::after {
     background:#EEF;
     border: double #AAC;
     border-left: solid #AAC 10px;
-    padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 10px;
     width:fit-content;
@@ -55,11 +54,11 @@ body::after {
 
 .table_of_contents::before {
     font-size: 150%;
-    line-height: 200%;
+    line-height: 300%;
     color: #fff;
     text-shadow: 1px 1px 2px black;
     background-color: #88A;
-    padding: 5px;
+    padding: 2px;
     padding-left: 10px;
     padding-right: 10px;
     content: "---<| この項の目次 |>---";
