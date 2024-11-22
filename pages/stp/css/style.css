@@ -42,7 +42,7 @@ body::after {
 }
 
 .table_of_contents::before {
-    content: "sssssssssssss";
+    content: "---<| この項の目次 |>---";
 }
 
 main {
