@@ -17,56 +17,101 @@ body::after {
     background:linear-gradient(to bottom, #444 30%, #b4b4b4 100%);
 }
 
-.headchar {
-    padding: 0%;
-    margin-top: 40px;
-    text-align: center;
-    color: #fff;
-    font-size: 200%;
-    line-height: 0%;
-    text-shadow: 1px 1px 2px silver;
-}
-
-@media (max-width: 768px) {
-    .headchar {
-        font-size: 150%; /* 横幅が768px以下の場合のフォントサイズ */
-    }
-}
-
-@media (max-width: 480px) {
-    .headchar {
-        font-size: 100%; /* 横幅が480px以下の場合のフォントサイズ */
-    }
-}
-
-.headchar .subhead {
-    font-size: 200%;
-}
-
 .table_of_contents {
     background:#EEF;
     border: double #AAC;
     border-left: solid #AAC 10px;
+    padding-left: 40px;
     padding-bottom: 10px;
-    padding-right: 10px;
+    padding-right: 40px;
     width:fit-content;
 }
 
 .table_of_contents::before {
-    font-size: 150%;
+    text-align: center;
+    font-size: 24px;
     line-height: 300%;
     color: #fff;
     text-shadow: 1px 1px 2px black;
     background-color: #88A;
     padding: 2px;
+    content: "---<| この項の目次 |>---";
+}
+
+.next_and_prev {
+    margin-left: 10em;
+    margin-right: 10em;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    height: fit-content;
+}
+
+.next_and_prev_icon {
+    vertical-align: middle;
+    text-align: center;
+    content: "";
+    display: inline-block;
+    background-image: url("/stp/icons/sin-beta_Next_Prev.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width:50%;
+}
+
+.next_page {
+    text-align: left;
+    background:#DDD;
+    border: solid #777 1px;
+    border-top: double #777 4px;
+    border-bottom: double #777 4px;
+    padding: 0px;
+    line-height: 2em;
+    margin: 1em;
     padding-left: 10px;
     padding-right: 10px;
-    content: "---<| この項の目次 |>---";
+    line-height: 1.5em;
+    width:100%;
+}
+
+.next_page::before {
+    font-size: 24px;
+    line-height: 2em;
+    color: #fff;
+    text-shadow: 1px 1px 2px black;
+    background-color: #777;
+    border-left: solid #AAA 10px;
+    padding: 0.3em;
+    content: "Next";
+}
+
+.prev_page {
+    text-align: right;
+    background:#DDD;
+    border: solid #777 1px;
+    border-top: double #777 4px;
+    border-bottom: double #777 4px;
+    padding: 0px;
+    margin: 1em;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 1.5em;
+    width:100%;
+}
+
+.prev_page::before {
+    font-size: 24px;
+    line-height: 2em;
+    color: #fff;
+    text-shadow: 1px 1px 2px black;
+    background-color: #777;
+    border-left: solid #AAA 10px;
+    padding: 0.3em;
+    content: "Prev";
 }
 
 main {
     background:#DDF;
-    font-size: 120%;
+    font-size: 18px;
     line-height: 150%;
     margin: 5%;
     margin-top: 1%;
@@ -75,15 +120,33 @@ main {
 
 @media (max-width: 768px) {
     main {
-        font-size: 95%; /* 横幅が768px以下の場合のフォントサイズ */
+        font-size: 15px; /* 横幅が768px以下の場合のフォントサイズ */
         margin: 3%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .next_and_prev_icon{
+        background-image: url("/stp/icons/sin-beta_Next_Prev_mobile.svg");
+        width:75%;
     }
 }
 
 @media (max-width: 480px) {
     main {
-        font-size: 60%; /* 横幅が480px以下の場合のフォントサイズ */
+        font-size: 12px; /* 横幅が480px以下の場合のフォントサイズ */
         margin: 1%;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    .next_and_prev_icon{
+        background-image: url("/stp/icons/sin-beta_Next_Prev_mobile.svg");
+        width:75%;
     }
 }
 
@@ -100,13 +163,36 @@ a:hover {
     text-decoration:underline;
 }
 
-ul {
-    list-style-type:none;
-    padding-left: 20px;
+h1 {
+    text-shadow: 0px 0px 2px lightseagreen, 0px 0px 2px lightseagreen, 2px 2px 2px palevioletred;
+    border-bottom:lightslategray solid 3px;
+    border-left: lightslategray solid 10px;
+    border-right: lightslategray double 4px;
+    border-top: lightslategray solid 2px;
+    background: #BDD;
+    background:-moz-linear-gradient(top, #BDD 30%, #BBB 100%);
+    background:-webkit-linear-gradient(top, #BDD 30%, #BBB 100%);
+    background:linear-gradient(to bottom, #BDD 30%, #6BB 100%);
+    padding: 0.3em;
+    line-height: 2em;
 }
 
-.normal_list {
-    list-style-type:circle;
+h1::before {
+    vertical-align: middle;
+    content: "";
+    display: inline-block;
+    background-image: url("/stp/icons/sin-beta_h1.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0px 0px 1px lightseagreen) drop-shadow(0px 0px 1px lightseagreen) drop-shadow(2px 2px 2px palevioletred);
+    width: 2em;
+    height: 2em;
+    margin-right: 0.3em;
+}
+
+
+ul,ol {
+    padding-left: 20px;
 }
 
 .red {/*クラス名blueに対して*/

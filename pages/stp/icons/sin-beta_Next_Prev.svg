@@ -1,0 +1,33 @@
+<svg viewBox="-600 -300 1200 600" xmlns="http://www.w3.org/2000/svg">
+    <line x1="-380" y1="0" x2="380" y2="0" stroke="black" stroke-width="4"/>
+    <line x1="0" y1="-290" x2="0" y2="290" stroke="black" stroke-width="4"/>
+    
+    <line x1="-37.5" y1="76" x2="37.5" y2="76" stroke="black" stroke-width="4"/>
+    <line x1="-37.5" y1="145" x2="37.5" y2="145" stroke="black" stroke-width="4"/>
+    <line x1="-37.5" y1="-76" x2="37.5" y2="-76" stroke="black" stroke-width="4"/>
+    <line x1="-37.5" y1="-145" x2="37.5" y2="-145" stroke="black" stroke-width="4"/>
+    <line x1="76" y1="-37.5" x2="76" y2="37.5" stroke="black" stroke-width="4"/>
+    <line x1="145" y1="-37.5" x2="145" y2="37.5" stroke="black" stroke-width="4"/>
+    <line x1="-76" y1="-37.5" x2="-76" y2="37.5" stroke="black" stroke-width="4"/>
+    <line x1="-145" y1="-37.5" x2="-145" y2="37.5" stroke="black" stroke-width="4"/>
+
+    <circle cx="0" cy="0" r="38" fill="transparent" stroke="black" stroke-width="4px"/>
+    <circle cx="0" cy="0" r="170.5" fill="transparent" stroke="black" stroke-width="7px"/>
+    <circle cx="0" cy="0" r="189.5" fill="transparent" stroke="black" stroke-width="13px"/>
+
+    <polygon points="-18.19 256.5 0 225 18.19 256.5" fill="black" transform="rotate(45)" />
+    <polygon points="-18.19 256.5 0 225 18.19 256.5" fill="black" transform="rotate(135)" />
+    <polygon points="-18.19 256.5 0 225 18.19 256.5" fill="black" transform="rotate(-45)" />
+    <polygon points="-18.19 256.5 0 225 18.19 256.5" fill="black" transform="rotate(-135)" />
+
+    <line x1="-30" y1="298" x2="30" y2="298" stroke="black" stroke-width="4"/>
+    <line x1="-30" y1="290" x2="30" y2="290" stroke="black" stroke-width="4"/>
+    <line x1="-30" y1="-298" x2="30" y2="-298" stroke="black" stroke-width="4"/>
+    <line x1="-30" y1="-290" x2="30" y2="-290" stroke="black" stroke-width="4"/>
+    
+    <polygon points="-20 400 0 550 20 400" fill="black" transform="rotate(90)" />
+    <polygon points="-20 400 0 550 20 400" fill="black" transform="rotate(270)" />
+
+    <polygon points="-10 400 0 380 10 400" fill="transparent" stroke="black" stroke-width="4px" transform="rotate(90)" />
+    <polygon points="-10 400 0 380 10 400" fill="transparent" stroke="black" stroke-width="4px" transform="rotate(270)" />
+</svg>
