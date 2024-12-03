@@ -29,7 +29,7 @@ body::after {
 
 .table_of_contents::before {
     text-align: center;
-    font-size: 24px;
+    font-size: 1.5em;
     line-height: 300%;
     color: #fff;
     text-shadow: 1px 1px 2px black;
@@ -74,7 +74,7 @@ body::after {
 }
 
 .next_page::before {
-    font-size: 24px;
+    font-size: 1.5em;
     line-height: 2em;
     color: #fff;
     text-shadow: 1px 1px 2px black;
@@ -99,7 +99,7 @@ body::after {
 }
 
 .prev_page::before {
-    font-size: 24px;
+    font-size: 1.5em;
     line-height: 2em;
     color: #fff;
     text-shadow: 1px 1px 2px black;
