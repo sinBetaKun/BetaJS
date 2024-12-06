@@ -175,10 +175,10 @@ h1 {
     border-left: lightslategray solid 10px;
     border-right: lightslategray solid 4px;
     border-top: lightslategray solid 2px;
-    background: #BDD;
-    background:-moz-linear-gradient(top, #BDD 30%, #BBB 100%);
-    background:-webkit-linear-gradient(top, #BDD 30%, #BBB 100%);
-    background:linear-gradient(bottom, #BDD 30%, #6BB 100%);
+    background: #BDE;
+    background:-moz-linear-gradient(top, #BDE 30%, #BBC 100%);
+    background:-webkit-linear-gradient(top, #BDE 30%, #BBC 100%);
+    background:linear-gradient(bottom, #BDE 30%, #6BC 100%);
     padding: 0.3em;
     line-height: 2em;
 }
@@ -202,7 +202,7 @@ h2 {
     border-left: lightslategray solid 8px;
     border-right: lightslategray solid 2px;
     border-top: lightslategray solid 2px;
-    background: #BDD;
+    background: #BDE;
     margin-top: 4em;
     padding: 0.5em;
     line-height: 2em;
@@ -223,7 +223,7 @@ h2::before {
 
 h3 {
     border-left: lightslategray solid 5px;
-    background: #BDD;
+    background: #BDE;
     margin-top: 3em;
     padding: 0.5em;
     padding-left: 1.5em;
