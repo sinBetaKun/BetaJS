@@ -38,6 +38,60 @@ body::after {
     content: "<| この項の目次 |>";
 }
 
+.embed-youtubes {
+    max-width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.embed-youtube {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    align-items: center;
+    background-color: #f9f9f9;
+    width: 500px;
+    max-width: 100%;
+}
+
+.embed-youtube iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.embed {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+.embed img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+.embed .info {
+    flex: 1;
+}
+.embed .info .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.embed .info .description {
+    font-size: 14px;
+    color: #666;
+}
+.embed a::before{
+    content: "サイトを見る";
+}
+
 .next_and_prev {
     margin-left: 10em;
     margin-right: 10em;
