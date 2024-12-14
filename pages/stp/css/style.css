@@ -73,7 +73,6 @@ body::after {
 
 .table_of_contents {
     background:#cdf;
-    text-shadow: 1px 1px 1px white;
     border: double lightslategray;
     border-left: solid lightslategray 10px;
     padding-left: 40px;
