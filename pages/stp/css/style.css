@@ -18,6 +18,15 @@
     max-width: 100%;
 }
 
+.embed-youtube .user-tips {
+    padding-left: 1em;
+    line-height: 0em;
+}
+
+.embed-youtube .user-tips::before {
+    content: "STPバージョン > ";
+}
+
 .embed-youtube iframe {
     width: 100%;
     aspect-ratio: 16 / 9;
