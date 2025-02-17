@@ -150,7 +150,7 @@ module.exports = {
                     if (element.embeds.length === 0) return false;
                     return element.embeds[0].description === `<@&${role.id}>`;
                 });
-                channel.bulkDelete(messages2);
+                channel.delete(messages2);
                 await interaction.reply({ content: 'ロール説明埋め込みを削除しました。', ephemeral: true });
                 return;
             default:

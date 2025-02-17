@@ -1,0 +1,42 @@
+
+.embed-youtubes {
+    max-width: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.embed-youtube {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    align-items: center;
+    background-color: #f9f9f9;
+    width: 30%;
+    max-width: 100%;
+}
+
+.embed-youtube p {
+    padding-left: 1em;
+    line-height: 1em;
+}
+
+.embed-youtube p::before {
+    content: "STPバージョン > ";
+}
+
+.embed-youtube iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 768px) {
+    .embed-youtube {
+        width: 33%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+}
