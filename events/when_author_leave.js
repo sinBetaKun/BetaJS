@@ -3,7 +3,6 @@ const AUTO_LEAVE = require('../beta_modules/authors_finder.js');
 
 module.exports = {
     name: Events.GuildMemberRemove,
-    once: true,
     /**
     * @param {Client} client クライアント
     * @param {GuildMember} member 退出したメンバー
