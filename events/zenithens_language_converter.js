@@ -1,11 +1,11 @@
 const { Events } = require('discord.js');
-const INFO = require('./info');
+const INFO = require('./waver/info.js');
 
 module.exports = {
     name: Events.MessageCreate,
     async execute(message, client) {
         
-        const array = message.content.match(/```zn\s+[0-9a-f=|-]+(\s+[0-9a-f=|-]+)*\s*```/g);
+        const array = message.content.match(/`{3}zn\s+[0-9a-f=|-]+(\s+[0-9a-f=|-]+)*\s*`{3}/g);
         if (array === null) return;
         if (array.length > 16) {
             message.channel.send(`<@${message.member.id}>\nコードの数が多すぎます！`);
