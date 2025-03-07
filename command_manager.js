@@ -97,10 +97,13 @@ module.exports = class CommandManager {
         
         try {
             if (command.meta) {
+                await interaction.reply({
+                    content: "Trying The Meta Command.",
+                    ephemeral: true,
+                });
                 if (dbg_mnger.isDebugging()) {
                     await command.execute(client, interaction, dbg_mnger);
                 }
-                
             } else {
                 if (dbg_mnger.isFrozen()) return;
                 await command.execute(client, interaction);

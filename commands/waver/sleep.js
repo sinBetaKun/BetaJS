@@ -31,9 +31,5 @@ module.exports = {
         const content = "スリープモードになりました。\nデバッグが終了したら必ず `/wake` を実行してください。";
         dbg_mnger.sleep();
         repCh.send(content);
-        await interaction.reply({
-            content: "The Command Exited.",
-            ephemeral: true,
-        })
     },
 };

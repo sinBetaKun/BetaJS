@@ -31,9 +31,5 @@ module.exports = {
         const content = "スリープモードを解除しました。";
         dbg_mnger.sleep();
         repCh.send(content);
-        await interaction.reply({
-            content: "The Command Exited.",
-            ephemeral: true,
-        })
     },
 };
