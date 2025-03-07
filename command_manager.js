@@ -1,19 +1,30 @@
+const {
+    Client,
+    Interaction,
+} = require('discord.js');
+const DebugManager = require('./beta_modules/DebugManager');
 const fs = require('fs');
 const path = require('path');
 
-module.exports = {
+module.exports = class CommandManager {
+    #global_cmd_dic;
+    #guild_cmd_dic;
+
+    constructor () {
+        this.#global_cmd_dic = {};
+        this.#guild_cmd_dic = {};
+    }
+
+    /**
+     * コマンドのモジュールが書かれたファイルを指定のフォルダから取得
+     * @param {string} dirName 
+     */
     read_from_dir(dirName) {
-        const Tree = {
-            all : {},
-            pub : {},
-            prv : {}
-        };
         const filesOfProject = fs.readdirSync(dirName)
         const pubCommandFiles = filesOfProject.filter(file => file.endsWith('.js'));
         for (const file of pubCommandFiles) {
             const command = require(`${dirName}/${file}`);
-            Tree.all[command.data.name] = command;
-            Tree.pub[command.data.name] = command;
+            this.#global_cmd_dic[command.data.name] = command;
         }
 
         const infoFileName = "info.js";
@@ -25,42 +36,81 @@ module.exports = {
                 const gldCommands = {};
                 for (const file of gldCommandFiles) {
                     const command = require(`${dirName}/${dir}/${file}`);
-                    Tree.all[command.data.name] = command;
                     gldCommands[command.data.name] = command;
                 }
-                Tree.prv[dir] = {
-                    gldID : info.gldID,
-                    commands : gldCommands,
-                }
+                this.#guild_cmd_dic[info.gldID] = gldCommands;
             }
             else {
                 console.log(`warning: The guild command is not set because there is no “${infoFileName}” in the ${dir} directory.`)
-                return undefined;
+                return false;
             }
         }
-        return Tree;
-    },
-    async set(client, Tree) {
-        if(!("all" in Tree && "pub" in Tree && "prv" in Tree)){
-            console.log("Invalid Command Tree.")
-            return;
-        }
-        const pubData = [];
-        for (const commandName in Tree.pub) {
-            pubData.push(Tree.pub[commandName].data);
-        }
-        await client.application.commands.set(pubData);
+        return true;
+    }
+
+    /**
+    * @param {Client} client クライアント
+    */
+    async set(client) {
+        const glbCmdData = Object.values(this.#global_cmd_dic).map((command) => command.data);
+        await client.application.commands.set(glbCmdData);
         //client.guilds.cache.forEach(async g => await client.application.commands.set(pubData, g.id));
 
-        for (const gldName in Tree.prv) {
-            const gldCommands = Tree.prv[gldName].commands;
-            const gldID = Tree.prv[gldName].gldID;
-            const gldData = [];
-            for (const commandName in gldCommands) {
-                gldData.push(gldCommands[commandName].data);
-            }
-            await client.application.commands.set(gldData, gldID);
+        for (const gldID in this.#guild_cmd_dic) {
+            const gldCommands = this.#guild_cmd_dic[gldID];
+            const gldCmdData = Object.values(gldCommands).map((command) => command.data);
+            await client.application.commands.set(gldCmdData, gldID);
         }
         console.log(client.application.commands);
+    }
+
+    /**
+     * 
+     * @param {Client} client 
+     * @param {Interaction} interaction 
+     * @param {DebugManager} dbg_mnger 
+     * @returns 
+     */
+    async execute(client, interaction, dbg_mnger) {
+        const commandName = interaction.commandName;
+        let command = null;
+        if (commandName in this.#global_cmd_dic) {
+            command = this.#global_cmd_dic[commandName];
+        }
+        else {
+            for (const gldCmd of this.#guild_cmd_dic) {
+                if (commandName in gldCmd) {
+                    command = this.#global_cmd_dic[commandName];
+                    break;
+                }
+            }
+            if (command == null) {
+                if (!dbg_mnger.isFrozen()){
+                    await interaction.reply({
+                        content: "The Command doesn't exit.",
+                        ephemeral: true,
+                    });
+                }
+                return false;
+            }
+        }
+        
+        try {
+            if (command.meta) {
+                if (dbg_mnger.isDebugging()) return;
+                await command.execute(client, interaction, dbg_mnger);
+            } else {
+                if (dbg_mnger.isFrozen()) return;
+                await command.execute(client, interaction);
+            }
+        } catch (error) {
+            console.error(error);
+            await interaction.reply({
+                content: 'There was an error while executing this command!',
+                ephemeral: true,
+            });
+            return false;
+        }
+        return true;
     }
 }

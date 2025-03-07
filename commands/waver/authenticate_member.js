@@ -1,22 +1,24 @@
-const {SlashCommandBuilder, PermissionFlagsBits} = require('discord.js');
+const {
+    ActionRowBuilder,
+    ModalBuilder,
+    Interaction,
+    TextInputBuilder,
+    TextInputStyle,
+    SlashCommandBuilder,
+    PermissionFlagsBits
+} = require('discord.js');
 const CommandName = "authenticate_member";
 const INFO = require("./info");
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(CommandName)
-        .setDescription("<|WAVER|> のメンバーとして認証します。\n")
+        .setDescription('<|WAVER|> のメンバーとして認証します。')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addUserOption(option => 
             option
                 .setName('member')
                 .setDescription('認証するメンバー')
-                .setRequired(true)
-        )
-        .addStringOption(option => 
-            option
-                .setName('message')
-                .setDescription('コメントを付けてください。')
                 .setRequired(true)
         )
         .addUserOption(option => 
@@ -26,11 +28,15 @@ module.exports = {
                 .setRequired(false)
         )
     ,
+    // スラッシュコマンドを受け取ると以下が実行される
+    /**
+    * @param {Client} client クライアント
+    * @param {Interaction} interaction インタラクション
+    */
     async execute(client, interaction) {
         if (!interaction.isChatInputCommand()) return;
         if (interaction.commandName !== CommandName) return;
         const member = interaction.options.getMember('member');
-        const message = interaction.options.getString('message');
         const primary = interaction.options.getMember('primary');
         const entCh = await client.channels.cache.get(INFO.chIDs.entrance);
         const logCh = await client.channels.cache.get(INFO.chIDs.menber_log);
@@ -44,11 +50,32 @@ module.exports = {
             logMes += `>>[sub] <t:${time}:d> <t:${time}:t>\n>> primary :<@${primary.id}>`;
             member.roles.add(INFO.role.sub);
         }
-        logCh.send(logMes);
-        entCh.send(mention + message.split('\\n').join('\n'));
-        await interaction.reply({
-            content: "The Command Exited.",
-            ephemeral: true,
-        })
+
+        const modal = new ModalBuilder()
+            .setCustomId('authenticateMember')
+            .setTitle(`${member.nickname}のメンバー認証`);
+
+        const messageInput = new TextInputBuilder()
+            .setCustomId('messageInput')
+            .setLabel("あなた自身の自己紹介を入力")
+            .setStyle(TextInputStyle.Paragraph);
+
+        const firstActionRow = new ActionRowBuilder().addComponents(ageInput);
+        const secondActionRow = new ActionRowBuilder().addComponents(messageInput);
+        modal.addComponents(firstActionRow, secondActionRow);
+
+        await interaction.showModal(modal);
+        const filter = (mInteraction) => mInteraction.customId === 'authenticateMember';
+		    interaction.awaitModalSubmit({ filter, time: 60000 })
+            .then(async mInteraction => {
+                const message = mInteraction.fields.getTextInputValue('messageInput');
+                await mInteraction.reply({
+                    content: "The Command Exited.",
+                    ephemeral: true,
+                });
+                logCh.send(logMes);
+                entCh.send(mention + message);
+            })
+            .catch(console.error);
     },
 };

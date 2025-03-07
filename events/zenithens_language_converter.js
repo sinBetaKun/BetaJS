@@ -1,10 +1,15 @@
-const { Events } = require('discord.js');
+const { Events , Message, Client } = require('discord.js');
 const INFO = require('./waver/info.js');
 
 module.exports = {
     name: Events.MessageCreate,
+    /**
+     * znゼニセンス記号に変換する
+     * @param {Message} message 
+     * @param {Client} client 
+     * @returns 
+     */
     async execute(message, client) {
-        
         const array = message.content.match(/`{3}zn\s+[0-9a-f=|-]+(\s+[0-9a-f=|-]+)*\s*`{3}/g);
         if (array === null) return;
         if (array.length > 16) {

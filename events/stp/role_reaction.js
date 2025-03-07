@@ -1,9 +1,14 @@
-const { Events } = require('discord.js');
+const { Events, Client, MessageReaction } = require('discord.js');
 const INFO = require('./info');
 
 module.exports = {
     name: Events.MessageReactionAdd,
-    async execute(reaction, user) {
+    /**
+     * @param {MessageReaction} reaction 
+     * @param {Client} client クライアント
+     * @param {GuildChannel} channel
+    */
+    async execute(reaction, user, client) {
         const message = await reaction.message.fetch();
         const member = message.guild.members.resolve(user);
         if (message.channel.id === INFO.chIDs.role_description) {

@@ -1,8 +1,15 @@
+const { Client } = require('discord.js');
+const DebugManager = require('./beta_modules/DebugManager')
 const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-    set(client, dirName) {
+    /**
+    * @param {Client} client クライアント
+    * @param {string} dirName イベントフォルダ
+    * @param {DebugManager} dbg_mnger 
+    */
+    set(client, dirName, dbg_mnger) {
         const filesOfProject = fs.readdirSync(dirName)
         const pubCommandFiles = filesOfProject.filter(file => file.endsWith('.js'));
         const eventFileList = [];
@@ -25,10 +32,32 @@ module.exports = {
         }
         for (const index in eventFileList) {
             const event = require(eventFileList[index]);
-            if (event.once) {
-                client.once(event.name, async (...args) => await event.execute(...args, client));
+            if (event.meta) {
+                if (event.once) {
+                    client.once(event.name, async (...args) => {
+                        if (dbg_mnger.isDebugging()) {
+                            await event.execute(...args, client, dbg_mnger);
+                        }
+                    });
+                } else {
+                    client.on(event.name, async (...args) => {
+                        if (dbg_mnger.isFrozen()) {
+                            await event.execute(...args, client, dbg_mnger);
+                        }
+                    });
+                }
             } else {
-                client.on(event.name, async (...args) => await event.execute(...args, client));
+                if (event.once) {
+                    client.once(event.name, async (...args) => {
+                        if (dbg_mnger.isDebugging()) return;
+                        await event.execute(...args, client);
+                    });
+                } else {
+                    client.on(event.name, async (...args) => {
+                        if (dbg_mnger.isFrozen()) return;
+                        await event.execute(...args, client);
+                    });
+                }
             }
         }
     }

@@ -33,7 +33,6 @@ module.exports = {
         const replyID = interaction.options.getString('reply');
         const mention = interaction.options.getBoolean('mention');
         const sendCh = interaction.channel;
-        const logCh = await client.channels.cache.get(INFO.chIDs.menber_log);
         const content = message.split('\\n').join('\n');
         if(replyID != null){
             const targetMessage = await sendCh.messages.fetch(replyID);

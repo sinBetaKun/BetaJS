@@ -17,40 +17,27 @@ const client = new Client({
     ],
 });
 
+const DebugManager = require('./beta_modules/DebugManager')
+const dbg_mnger = new DebugManager(true); // プッシュ時は必ずfalseにする。
+
 //-------------------<|commands|>-----------------------//
-const cmd_mnger = require("./command_manager");
-const slashTree = cmd_mnger.read_from_dir("./commands");
+const CommandManager = require("./command_manager");
+const cmd_mnger = new CommandManager();
+cmd_mnger.read_from_dir("./commands");
 
 //--------------------<|events|>------------------------//
-require("./event_manager").set(client, "./events");
-
+require("./event_manager").set(client, "./events", dbg_mnger);
 
 client.once(Events.ClientReady, async (c) => {
-    await cmd_mnger.set(client, slashTree);
+    await cmd_mnger.set(client);
     console.log("setted Commands.");
     console.log(`Ready! (${c.user.tag})`);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-    if (!interaction.isCommand()) {
-        return;
-    }
-    if(!(interaction.commandName in slashTree.all)){
-        await interaction.reply({
-            content: "The Command doesn't exit.",
-            ephemeral: true,
-        })
-    }
-    const command = slashTree.all[interaction.commandName];
-    try {
-        await command.execute(client,interaction);
-    } catch (error) {
-        console.error(error);
-        await interaction.reply({
-            content: 'There was an error while executing this command!',
-            ephemeral: true,
-        })
-    }
+    if (!interaction.isCommand()) return;
+
+    await cmd_mnger.execute(client, interaction, dbg_mnger);
 });
 
 client.login(process.env.TOKEN);

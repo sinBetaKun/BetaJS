@@ -1,9 +1,14 @@
-const { Events, ChannelType, EmbedBuilder } = require('discord.js');
+const { Events, ChannelType, Client } = require('discord.js');
 const INFO = require('./info');
 const Maker = require('./make_auth_thread');
 
 module.exports = {
     name: Events.ChannelUpdate,
+    /**
+     * @param {GuildChannel} oldChannel
+     * @param {GuildChannel} newChannel
+     * @param {Client} client 
+    */
     async execute(oldChannel, newChannel, client) {
         if (!Maker.check_type(newChannel)) return;
         if (newChannel.guild.id !== INFO.gldID) return;

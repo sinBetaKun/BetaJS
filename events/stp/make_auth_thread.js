@@ -1,8 +1,18 @@
-const { Events, ChannelType, EmbedBuilder } = require('discord.js');
+const {
+    Events,
+    ChannelType, 
+    EmbedBuilder, 
+    GuildChannel, 
+    Client
+ } = require('discord.js');
 const INFO = require('./info');
 
 module.exports = {
     name: Events.ChannelCreate,
+    /**
+    * @param {Client} client クライアント
+    * @param {GuildChannel} channel
+    */
     async execute(channel, client) {
         if (!this.check_type(channel)) return;
         if (channel.guild.id !== INFO.gldID) return;
