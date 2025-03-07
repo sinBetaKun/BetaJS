@@ -78,9 +78,9 @@ module.exports = class CommandManager {
             command = this.#global_cmd_dic[commandName];
         }
         else {
-            for (const gldCmd of this.#guild_cmd_dic) {
+            for (const [gldID, gldCmd] of Object.entries(this.#guild_cmd_dic)) {
                 if (commandName in gldCmd) {
-                    command = this.#global_cmd_dic[commandName];
+                    command = this.#guild_cmd_dic[gldID][commandName];
                     break;
                 }
             }
@@ -97,8 +97,10 @@ module.exports = class CommandManager {
         
         try {
             if (command.meta) {
-                if (dbg_mnger.isDebugging()) return;
-                await command.execute(client, interaction, dbg_mnger);
+                if (dbg_mnger.isDebugging()) {
+                    await command.execute(client, interaction, dbg_mnger);
+                }
+                
             } else {
                 if (dbg_mnger.isFrozen()) return;
                 await command.execute(client, interaction);
