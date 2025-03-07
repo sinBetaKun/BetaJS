@@ -32,7 +32,10 @@ client.once(Events.ClientReady, async (c) => {
     await cmd_mnger.set(client);
     console.log("setted Commands.");
     console.log(`Ready! (${c.user.tag})`);
-    client.user.setActivity(null);
+    client.user.setPresence({
+        activities: [],
+        status: PresenceUpdateStatus.Online
+    });
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {

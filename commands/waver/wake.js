@@ -30,7 +30,10 @@ module.exports = {
         if (interaction.commandName !== CommandName) return;
         dbg_mnger.wakeUp();
         if (dbg_mnger.isDebugging()) return;
-        client.user.setActivity(null);
+        client.user.setPresence({
+            activities: [],
+            status: PresenceUpdateStatus.Online
+        });
         const repCh = interaction.channel;
         const content = "スリープモードを解除しました。";
         repCh.send(content);
