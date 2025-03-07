@@ -27,9 +27,10 @@ module.exports = {
     async execute(client, interaction, dbg_mnger) {
         if (!interaction.isChatInputCommand()) return;
         if (interaction.commandName !== CommandName) return;
+        dbg_mnger.sleep();
+        if (dbg_mnger.isDebugging()) return;
         const repCh = interaction.channel;
         const content = "スリープモードになりました。\nデバッグが終了したら必ず `/wake` を実行してください。";
-        dbg_mnger.sleep();
         repCh.send(content);
     },
 };

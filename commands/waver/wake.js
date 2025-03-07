@@ -27,9 +27,10 @@ module.exports = {
     async execute(client, interaction, dbg_mnger) {
         if (!interaction.isChatInputCommand()) return;
         if (interaction.commandName !== CommandName) return;
+        dbg_mnger.wakeUp();
+        if (dbg_mnger.isDebugging()) return;
         const repCh = interaction.channel;
         const content = "スリープモードを解除しました。";
-        dbg_mnger.sleep();
         repCh.send(content);
     },
 };
