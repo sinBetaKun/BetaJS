@@ -15,7 +15,7 @@ module.exports = class DebugManager {
      * @returns {boolean}
      */
     isFrozen() {
-        return this.#debugMode || !this.#sleeping;
+        return !this.#debugMode && this.#sleeping;
     }
 
     isDebugging() {
