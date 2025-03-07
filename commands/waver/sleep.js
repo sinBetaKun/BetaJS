@@ -3,6 +3,7 @@ const {
     PermissionFlagsBits,
     Integration,
     Client,
+    PresenceUpdateStatus,
 } = require('discord.js');
 const DebugManager = require('../../beta_modules/DebugManager');
 const CommandName = "sleep";
@@ -29,6 +30,10 @@ module.exports = {
         if (interaction.commandName !== CommandName) return;
         dbg_mnger.sleep();
         if (dbg_mnger.isDebugging()) return;
+        client.user.setPresence({
+            activities: [{ name: '<| Debug Mode |>', type: 0 }],
+            status: PresenceUpdateStatus.DoNotDisturb
+        });
         const repCh = interaction.channel;
         const content = "スリープモードになりました。\nデバッグが終了したら必ず `/wake` を実行してください。";
         repCh.send(content);
