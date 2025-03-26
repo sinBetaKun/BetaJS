@@ -59,7 +59,7 @@ module.exports = {
 
         const messageInput = new TextInputBuilder()
             .setCustomId('messageInput')
-            .setLabel("あなた自身の自己紹介を入力")
+            .setLabel("送信するメッセージの内容")
             .setStyle(TextInputStyle.Paragraph);
 
         const firstActionRow = new ActionRowBuilder().addComponents(messageInput);
