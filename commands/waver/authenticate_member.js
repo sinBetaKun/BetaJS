@@ -43,26 +43,27 @@ module.exports = {
         const time = Math.floor(Date.now()/1000);
         const mention = `<@${member.id}>\n`;
         let logMes = mention;
-        if(primary == null){
+        if (primary == null) {
             logMes += `>>[primary] <t:${time}:d> <t:${time}:t>`;
             member.roles.add(INFO.role.primary);
-        }else{
+        } else {
             logMes += `>>[sub] <t:${time}:d> <t:${time}:t>\n>> primary :<@${primary.id}>`;
             member.roles.add(INFO.role.sub);
         }
 
+        const userName = member.nickname ?? member.user.globalName;
+
         const modal = new ModalBuilder()
             .setCustomId('authenticateMember')
-            .setTitle(`${member.nickname}のメンバー認証`);
+            .setTitle(`${userName}のメンバー認証`);
 
         const messageInput = new TextInputBuilder()
             .setCustomId('messageInput')
             .setLabel("あなた自身の自己紹介を入力")
             .setStyle(TextInputStyle.Paragraph);
 
-        const firstActionRow = new ActionRowBuilder().addComponents(ageInput);
-        const secondActionRow = new ActionRowBuilder().addComponents(messageInput);
-        modal.addComponents(firstActionRow, secondActionRow);
+        const firstActionRow = new ActionRowBuilder().addComponents(messageInput);
+        modal.addComponents(firstActionRow);
 
         await interaction.showModal(modal);
         const filter = (mInteraction) => mInteraction.customId === 'authenticateMember';
