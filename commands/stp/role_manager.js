@@ -1,4 +1,10 @@
-const {SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits} = require('discord.js');
+const {
+    Client,
+    EmbedBuilder,
+    Interaction,
+    SlashCommandBuilder,
+    PermissionFlagsBits
+} = require('discord.js');
 const fetch = require('node-fetch');
 const CommandName = 'role_manager';
 const SubCommandName = {
@@ -60,13 +66,17 @@ module.exports = {
                 )
         )
     ,
+    /**
+    * @param {Client} client クライアント
+    * @param {Interaction} interaction インタラクション
+    */
     async execute(client, interaction) {
         if (!interaction.isChatInputCommand()) return;
         if (interaction.commandName !== CommandName) return;
         const sub_command = interaction.options.getSubcommand();
         switch (sub_command) {
             case SubCommandName.creat_desc:
-                const attachment = await interaction.options.getAttachment('json_file');
+                const attachment = interaction.options.getAttachment('json_file');
                 if (!attachment || !attachment.name.endsWith('.json')) {
                     await interaction.reply({ content: ERR_MESSAGE.att_isnt_json.discord, ephemeral: true });
                     console.error(ERR_MESSAGE.att_isnt_json.console);

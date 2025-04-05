@@ -1,4 +1,9 @@
-const {SlashCommandBuilder, PermissionFlagsBits} = require('discord.js');
+const {
+    Interaction,
+    Client,
+    SlashCommandBuilder,
+    PermissionFlagsBits
+} = require('discord.js');
 const CommandName = "send_message";
 const INFO = require("./info");
 
@@ -26,6 +31,10 @@ module.exports = {
                 .setRequired(false)
         )
     ,
+    /**
+    * @param {Client} client クライアント
+    * @param {Interaction} interaction インタラクション
+    */
     async execute(client, interaction) {
         if (!interaction.isChatInputCommand()) return;
         if (interaction.commandName !== CommandName) return;

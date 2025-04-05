@@ -35,6 +35,10 @@ module.exports = {
             console.error(error);
         }
     },
+    /**
+    * @param {string} title 
+    * @param {GuildChannel} channel
+    */
     make_description(title, channel) {
         const permissionOverwrites = channel.permissionOverwrites.cache;
         const permissionsInfo = this.make_pmInfo_field(permissionOverwrites);

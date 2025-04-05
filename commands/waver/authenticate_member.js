@@ -1,5 +1,6 @@
 const {
     ActionRowBuilder,
+    Client,
     ModalBuilder,
     Interaction,
     TextInputBuilder,
@@ -38,8 +39,8 @@ module.exports = {
         if (interaction.commandName !== CommandName) return;
         const member = interaction.options.getMember('member');
         const primary = interaction.options.getMember('primary');
-        const entCh = await client.channels.cache.get(INFO.chIDs.entrance);
-        const logCh = await client.channels.cache.get(INFO.chIDs.menber_log);
+        const entCh = client.channels.cache.get(INFO.chIDs.entrance);
+        const logCh = client.channels.cache.get(INFO.chIDs.menber_log);
         const time = Math.floor(Date.now()/1000);
         const mention = `<@${member.id}>\n`;
         let logMes = mention;
@@ -67,16 +68,18 @@ module.exports = {
 
         await interaction.showModal(modal);
         const filter = (mInteraction) => mInteraction.customId === 'authenticateMember';
-		    interaction.awaitModalSubmit({ filter, time: 60000 })
-            .then(async mInteraction => {
-                const message = mInteraction.fields.getTextInputValue('messageInput');
-                await mInteraction.reply({
-                    content: "The Command Exited.",
-                    ephemeral: true,
-                });
-                logCh.send(logMes);
-                entCh.send(mention + message);
-            })
-            .catch(console.error);
+		
+        interaction
+        .awaitModalSubmit({ filter, time: 60000 })
+        .then(async mInteraction => {
+            const message = mInteraction.fields.getTextInputValue('messageInput');
+            await mInteraction.reply({
+                content: "The Command Exited.",
+                ephemeral: true,
+            });
+            logCh.send(logMes);
+            entCh.send(mention + message);
+        })
+        .catch(console.error);
     },
 };

@@ -1,5 +1,6 @@
 const {
     ActionRowBuilder,
+    Client,
     ModalBuilder,
     Interaction,
     TextInputBuilder,
