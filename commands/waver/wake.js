@@ -1,9 +1,9 @@
 const {
-    SlashCommandBuilder,
-    PermissionFlagsBits,
-    Integration,
     Client,
+    Integration,
+    PermissionFlagsBits,
     PresenceUpdateStatus,
+    SlashCommandBuilder,
 } = require('discord.js');
 const DebugManager = require('../../beta_modules/DebugManager');
 const CommandName = "wake";

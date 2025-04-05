@@ -1,4 +1,9 @@
-const {SlashCommandBuilder, PermissionFlagsBits} = require('discord.js');
+const {
+    Interaction,
+    Client,
+    SlashCommandBuilder,
+    PermissionFlagsBits
+} = require('discord.js');
 const CommandName = "ban_member";
 const INFO = require("./info");
 const all_message_fetcher = require('../../beta_modules/all_message_fetcher');
@@ -27,6 +32,10 @@ module.exports = {
                 .setRequired(true)
         )
     ,
+    /**
+    * @param {Client} client クライアント
+    * @param {Interaction} interaction インタラクション
+    */
     async execute(client, interaction) {
         // 条件不一致コマンドの無視
         if (!interaction.isChatInputCommand()) return;
