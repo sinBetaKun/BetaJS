@@ -1,11 +1,13 @@
 const {
     ActionRowBuilder,
     Client,
+    EmbedBuilder,
     ModalBuilder,
     Interaction,
     TextInputBuilder,
     TextInputStyle,
     SlashCommandBuilder,
+    PermissionsBitField,
 } = require('discord.js');
 const CommandName = "anonymous_message";
 const ModalID = 'anonymousMessage';
@@ -38,6 +40,17 @@ module.exports = {
         const replyID = interaction.options.getString('reply');
         const mention = interaction.options.getBoolean('mention') ?? true;
         const sendCh = interaction.channel;
+        const member = interaction.member;
+
+        if (!sendCh.permissionsFor(member)?.has(PermissionsBitField.Flags.SendMessages))
+        {
+            await interaction.reply({
+                content: "あなたはこのチャンネルでメッセージを送信する権限がありません。",
+                ephemeral: true,
+            });
+
+            return;
+        }
         
         const modal = new ModalBuilder()
             .setCustomId(ModalID)
@@ -56,18 +69,24 @@ module.exports = {
         
         interaction.awaitModalSubmit({ filter, time: 60000 })
         .then(async mInteraction => {
-            const sendCh = interaction.channel;
             const content = mInteraction.fields.getTextInputValue(TextInputID);
+            const embed = new EmbedBuilder()
+            .setTitle('<| 匿名メッセージコマンド |>')
+            .setDescription('このサーバー限定の機能です。')
             if(replyID != null){
                 const targetMessage = await sendCh.messages.fetch(replyID);
                 await targetMessage.reply({
                     content: content,
-                    allowedMentions: { repliedUser: mention }
+                    allowedMentions: { repliedUser: mention },
+                    embeds: [embed],
                 });
             }
             else
             {
-                sendCh.send(content);
+                sendCh.send({
+                    content: content,
+                    embeds: [embed],
+                });
             }
             await mInteraction.reply({
                 content: "The Command Exited.",

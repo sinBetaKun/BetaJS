@@ -1,4 +1,4 @@
-const { Events, ChannelType, Client } = require('discord.js');
+const { Events, ChannelType, Client, GuildChannel, TextChannel } = require('discord.js');
 const INFO = require('./info');
 const Maker = require('./make_auth_thread');
 
@@ -46,6 +46,11 @@ module.exports = {
             console.error(error);
         }
     },
+    /**
+     * @param {TextChannel} oldChannel
+     * @param {TextChannel} newChannel
+     * @returns {boolean}
+    */
     check_update(oldChannel, newChannel){
         if (newChannel.isTextBased())
             if (oldChannel.rateLimitPerUser !== newChannel.rateLimitPerUser) {
