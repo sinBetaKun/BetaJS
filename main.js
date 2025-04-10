@@ -1,4 +1,10 @@
-const { Client, Partials, Events, GatewayIntentBits, PresenceUpdateStatus} = require('discord.js');
+const {
+    Client,
+    Partials,
+    Events,
+    GatewayIntentBits,
+    PresenceUpdateStatus
+} = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
