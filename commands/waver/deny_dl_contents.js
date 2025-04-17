@@ -4,25 +4,25 @@ const {
     SlashCommandBuilder,
     PermissionFlagsBits
 } = require('discord.js');
-const CommandName = "ban_member";
+const CommandName = "deny_dl_contents";
 const INFO = require("./info");
 const all_message_fetcher = require('../../beta_modules/all_message_fetcher');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(CommandName)
-        .setDescription("メンバーをBANします。\n")
+        .setDescription("メンバーからDL権をはく奪します。\n")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addUserOption(option => 
             option
                 .setName('member')
-                .setDescription('BANするメンバー')
+                .setDescription('はく奪するメンバー')
                 .setRequired(true)
         )
         .addStringOption(option => 
             option
                 .setName('reason')
-                .setDescription('BAN理由を書いてください。')
+                .setDescription('はく奪理由を書いてください。')
                 .setRequired(true)
         )
         .addIntegerOption(option => 
