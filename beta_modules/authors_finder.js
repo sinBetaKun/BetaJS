@@ -1,6 +1,6 @@
 const { Guild , Client } = require('discord.js');
 const AUTHOR = require('../author.js');
-const INFO = require('../events/waver/info.js');
+const INFO = require('../guild_info/waver.js');
 const WritableChannels = require('./findWritableChannels.js')
 
 /**

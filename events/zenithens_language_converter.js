@@ -1,5 +1,5 @@
 const { Events , Message, Client } = require('discord.js');
-const INFO = require('./waver/info.js');
+const INFO = require('../guild_info/waver.js');
 
 module.exports = {
     name: Events.MessageCreate,

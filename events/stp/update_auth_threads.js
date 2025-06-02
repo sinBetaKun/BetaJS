@@ -1,5 +1,5 @@
 const { Events, ChannelType, Client, GuildChannel, TextChannel } = require('discord.js');
-const INFO = require('./info');
+const INFO = require('../../guild_info/stp');
 const Maker = require('./make_auth_thread');
 
 module.exports = {

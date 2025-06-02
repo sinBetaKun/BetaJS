@@ -12,7 +12,7 @@ const {
 const CommandName = 'allow_dl_contents';
 const ModalID = 'allowDLContents';
 const TextInput = 'messageInput';
-const INFO = require("./info");
+const INFO = require("../../guild_info/waver");
 
 module.exports = {
     data: new SlashCommandBuilder()

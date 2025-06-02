@@ -5,7 +5,7 @@ const {
     PermissionFlagsBits
 } = require('discord.js');
 const CommandName = "deny_dl_contents";
-const INFO = require("./info");
+const INFO = require("../../guild_info/waver");
 const all_message_fetcher = require('../../beta_modules/all_message_fetcher');
 
 module.exports = {

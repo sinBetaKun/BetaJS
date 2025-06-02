@@ -2,12 +2,11 @@ const {
     Client,
     Integration,
     PermissionFlagsBits,
-    PresenceUpdateStatus,
     SlashCommandBuilder,
 } = require('discord.js');
 const DebugManager = require('../../beta_modules/DebugManager');
 const CommandName = "wake";
-const INFO = require("../../events/waver/info");
+const INFO = require('../../guild_info/waver');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,7 +31,7 @@ module.exports = {
         if (dbg_mnger.isDebugging()) return;
         client.user.setPresence({
             activities: [],
-            status: PresenceUpdateStatus.Online
+            status: 'online'
         });
         const repCh = interaction.channel;
         const content = "スリープモードを解除しました。";

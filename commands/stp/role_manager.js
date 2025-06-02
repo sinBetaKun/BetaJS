@@ -11,7 +11,7 @@ const SubCommandName = {
     creat_desc : 'creat_description',
     del_desc : 'delete_description',
 };
-const INFO = require("./info");
+const INFO = require("../../guild_info/stp");
 const all_message_fetcher = require("../../beta_modules/all_message_fetcher");
 const ERR_MESSAGE = {
     undef_sub_cmd : {

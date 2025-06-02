@@ -5,7 +5,7 @@ const {
     PermissionFlagsBits
 } = require('discord.js');
 const CommandName = "send_message";
-const INFO = require("./info");
+const INFO = require("../../guild_info/waver");
 
 module.exports = {
     data: new SlashCommandBuilder()

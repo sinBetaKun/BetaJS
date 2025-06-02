@@ -1,4 +1,14 @@
+const {
+    TextChannel,
+    Message,
+} = require('discord.js');
+
 module.exports = {
+    // チャンネル内の全てのメッセージを取得する
+    /**
+    * @param {TextChannel} channel チャンネル
+    * @returns {Promise<Message[]>}
+    */
     async execute(channel) {
         let messages = [];
         let lastMessageId;

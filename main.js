@@ -3,7 +3,6 @@ const {
     Partials,
     Events,
     GatewayIntentBits,
-    PresenceUpdateStatus
 } = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -32,7 +31,7 @@ const cmd_mnger = new CommandManager();
 cmd_mnger.read_from_dir("./commands");
 
 //--------------------<|events|>------------------------//
-require("./event_manager").set(client, "./events", dbg_mnger);
+require("./event_manager2").set(client, "./events", dbg_mnger);
 
 client.once(Events.ClientReady, async (c) => {
     await cmd_mnger.set(client);
@@ -40,7 +39,7 @@ client.once(Events.ClientReady, async (c) => {
     console.log(`Ready! (${c.user.tag})`);
     client.user.setPresence({
         activities: [],
-        status: PresenceUpdateStatus.Online
+        status: 'online'
     });
 });
 

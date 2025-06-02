@@ -6,27 +6,23 @@ const {
     TextInputBuilder,
     TextInputStyle,
     SlashCommandBuilder,
-    PermissionFlagsBits
+    PermissionFlagsBits,
 } = require('discord.js');
-const CommandName = "authenticate_member";
-const INFO = require("../../guild_info/waver");
+const CommandName = 'allow_dl_contents';
+const ModalID = 'allowDLContents';
+const TextInput = 'messageInput';
+const INFO = require('../../guild_info/test1');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(CommandName)
-        .setDescription('<|WAVER|> のメンバーとして認証します。')
+        .setDescription('配布物のダウンロード権限を与えます。')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addUserOption(option => 
             option
                 .setName('member')
                 .setDescription('認証するメンバー')
                 .setRequired(true)
-        )
-        .addUserOption(option => 
-            option
-                .setName('primary')
-                .setDescription('メイン垢を指定します。')
-                .setRequired(false)
         )
     ,
     // スラッシュコマンドを受け取ると以下が実行される
@@ -38,47 +34,48 @@ module.exports = {
         if (!interaction.isChatInputCommand()) return;
         if (interaction.commandName !== CommandName) return;
         const member = interaction.options.getMember('member');
-        const primary = interaction.options.getMember('primary');
+        const conCh = client.channels.cache.get(INFO.chIDs.cmn_apl);
+        const logCh = client.channels.cache.get(INFO.chIDs.cmn_apl_log);
+        const time = Math.floor(Date.now()/1000);
+        const mention = `<@${member.id}>\n`;
+        
+        if (member.roles.cache.has(INFO.role.dl)) {
+            await interaction.reply({
+                content: "既にロールが付与されています。",
+                ephemeral: true,
+            });
+            return;
+        }
 
         const userName = member.nickname ?? member.user.globalName;
 
         const modal = new ModalBuilder()
-            .setCustomId('authenticateMember')
-            .setTitle(`${userName}のメンバー認証`);
+            .setCustomId(ModalID)
+            .setTitle(`${userName}のDL権付与`);
 
         const messageInput = new TextInputBuilder()
-            .setCustomId('messageInput')
-            .setLabel("送信するメッセージの内容")
+            .setCustomId(TextInput)
+            .setLabel('送信するメッセージの内容')
             .setStyle(TextInputStyle.Paragraph);
 
         const firstActionRow = new ActionRowBuilder().addComponents(messageInput);
         modal.addComponents(firstActionRow);
 
         await interaction.showModal(modal);
-        const filter = (mInteraction) => mInteraction.customId === 'authenticateMember';
+        const filter = (mInteraction) => mInteraction.customId === ModalID;
 		
         interaction
         .awaitModalSubmit({ filter, time: 60000 })
         .then(async mInteraction => {
-            const entCh = client.channels.cache.get(INFO.chIDs.entrance);
-            const logCh = client.channels.cache.get(INFO.chIDs.menber_log);
-            const time = Math.floor(Date.now()/1000);
-            const mention = `<@${member.id}>\n`;
-            let logMes = mention;
-            if (primary == null) {
-                logMes += `>>[primary] <t:${time}:d> <t:${time}:t>`;
-                member.roles.add(INFO.role.primary);
-            } else {
-                logMes += `>>[sub] <t:${time}:d> <t:${time}:t>\n>> primary :<@${primary.id}>`;
-                member.roles.add(INFO.role.sub);
-            }
-            const message = mInteraction.fields.getTextInputValue('messageInput');
+            const logMes = mention + `>>[dl] <t:${time}:d> <t:${time}:t>`;
+            member.roles.add(INFO.role.dl);
+            const message = mInteraction.fields.getTextInputValue(TextInput);
             await mInteraction.reply({
                 content: "The Command Exited.",
                 ephemeral: true,
             });
             logCh.send(logMes);
-            entCh.send(mention + message);
+            conCh.send(mention + message);
         })
         .catch(console.error);
     },

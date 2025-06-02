@@ -5,7 +5,7 @@ const {
     GuildChannel, 
     Client
  } = require('discord.js');
-const INFO = require('./info');
+const INFO = require('../../guild_info/stp');
 
 module.exports = {
     name: Events.ChannelCreate,

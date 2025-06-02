@@ -1,0 +1,88 @@
+<div class="project-list">
+    <p>sin型カスタムパーツ立ち絵プラグイン</p>
+
+    <!-- 左右の SVG をHTML内に埋め込む -->
+    <svg class="icon left" viewBox="-50 -100 100 200">
+        <polygon points="-50,0 50,100 0,0 50,-100"  fill="white"/>
+    </svg>
+
+    <svg class="icon right" viewBox="-50 -100 100 200">
+        <polygon points="50,0 -50,100 0,0 -50,-100"  fill="white"/>
+    </svg>
+</div>    
+
+<style>
+  body {
+    font-size: 2em;
+    background-color: black;
+  }
+
+  .project-list {
+    padding-top: 4em;
+    padding-bottom: 4em;
+    margin-left: 4em;
+    position: relative;
+    width: 10em;
+    height: 100%;
+    border-left: 5px solid white;
+    border-right: 5px solid white;
+  }
+
+  .project-list p {
+    color: white;
+    padding: 0;
+    margin: 1em 0;
+    position: relative;
+    text-align: center;
+  }
+
+    .icon {
+        position: absolute;
+        width: 1.5em;
+        height: 3em;
+        top: 0;
+        left: 0;
+        transition: top 0.3s ease-out   ;
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    .icon.left {
+        transform: translate(-150%, -50%);
+    }
+
+    .icon.right {
+        transform: translate(50%, -50%);
+    }
+
+  .icon.visible {
+    opacity: 1;
+  }
+</style>
+
+<script>
+    const list = document.querySelector(".project-list");
+    const items = document.querySelectorAll(".project-list p");
+    const leftIcon = document.querySelector(".icon.left");
+    const rightIcon = document.querySelector(".icon.right");
+
+    items.forEach(item => {
+        item.addEventListener("mouseenter", () => {
+            const rect = item.getBoundingClientRect();
+            const listRect = list.getBoundingClientRect();
+            const top = rect.top - listRect.top + item.offsetHeight / 2;
+            const leftX = item.offsetLeft;
+            const rightX = item.offsetLeft + item.offsetWidth;
+
+            // 移動させる
+            leftIcon.style.top = `${top}px`;
+            leftIcon.style.left = `${leftX}px`;
+            rightIcon.style.top = `${top}px`;
+            rightIcon.style.left = `${rightX}px`;
+
+            // 表示
+            leftIcon.classList.add("visible");
+            rightIcon.classList.add("visible");
+        });
+    });
+</script>

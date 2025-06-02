@@ -1,5 +1,5 @@
 const { Events , Client } = require('discord.js');
-const INFO = require('./info');
+const INFO = require('../../guild_info/waver');
 
 const gmLog = 'https://tenor.com/view/touhou-fumo-gm-good-morning-gn-gif-3443276815897087102';
 

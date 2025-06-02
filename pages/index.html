@@ -8,6 +8,116 @@
 </head>
 <body>
     <h1>Beta's Project</h1>
-    <p><a href="stp/index.html">『sin型カスタムパーツ立ち絵』取扱説明書</a></p>
+    <div class="project-list">
+        <a href="stp/index.html">sin型カスタムパーツ立ち絵プラグイン</a>
+
+        <!-- 左右の SVG をHTML内に埋め込む -->
+        <svg class="icon left" viewBox="-50 -100 100 200">
+            <polygon points="-50,0 50,100 0,0 50,-100"  fill="white"/>
+        </svg>
+
+        <svg class="icon right" viewBox="-50 -100 100 200">
+            <polygon points="50,0 -50,100 0,0 -50,-100"  fill="white"/>
+        </svg>
+    </div>
 </body>
+<style>
+        body {
+            font-size: 2em;
+            background-color: black;
+        }
+
+        h1 {
+            white-space: nowrap;
+            color: white;
+            position: absolute;
+            right: 1em;
+        }
+
+        .project-list {
+            padding: 4em 1em 4em 1em;
+            margin-left: 4em;
+            position: relative;
+            width: 10em;
+            height: 100%;
+            border-left: 5px solid white;
+            border-right: 5px solid white;
+        }
+
+        .project-list a {
+            color: white;
+            text-decoration: none;
+            margin: 1em 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .icon {
+            position: absolute;
+            width: 1.5em;
+            height: 3em;
+            top: 0;
+            left: 0;
+            transition: top 0.3s ease-out, left  0.3s ease-out  ;
+            pointer-events: none;
+            text-align: center;
+            opacity: 0;
+        }
+
+            .icon.left {
+                transform: translate(-4em, -50%);
+            }
+
+            .icon.right {
+                transform: translate(3.5em, -50%);
+            }
+
+        .icon.visible {
+            opacity: 1;
+        }
+
+        
+        @media (max-width: 1100px) {
+            body {
+                font-size: 1em;
+                text-align: center;
+            }
+
+            h1 {
+                position: relative;
+                right: auto;
+            }
+
+            .project-list {
+                position: relative;
+                margin: auto;
+            }
+        }
+    </style>
+<script>
+    const list = document.querySelector(".project-list");
+    const items = document.querySelectorAll(".project-list a");
+    const leftIcon = document.querySelector(".icon.left");
+    const rightIcon = document.querySelector(".icon.right");
+
+    items.forEach(item => {
+        item.addEventListener("mouseenter", () => {
+            const rect = item.getBoundingClientRect();
+            const listRect = list.getBoundingClientRect();
+            const top = rect.top - listRect.top + item.offsetHeight / 2;
+            const leftX = item.offsetLeft;
+            const rightX = item.offsetLeft + item.offsetWidth;
+
+            // 移動させる
+            leftIcon.style.top = `${top}px`;
+            leftIcon.style.left = `${leftX}px`;
+            rightIcon.style.top = `${top}px`;
+            rightIcon.style.left = `${rightX}px`;
+
+            // 表示
+            leftIcon.classList.add("visible");
+            rightIcon.classList.add("visible");
+        });
+    });
+</script>
 </html>

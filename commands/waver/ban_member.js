@@ -5,7 +5,7 @@ const {
     PermissionFlagsBits
 } = require('discord.js');
 const CommandName = "ban_member";
-const INFO = require("./info");
+const INFO = require("../../guild_info/waver");
 const all_message_fetcher = require('../../beta_modules/all_message_fetcher');
 
 module.exports = {
