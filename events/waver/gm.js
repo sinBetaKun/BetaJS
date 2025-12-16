@@ -1,7 +1,7 @@
 const { Events , Client } = require('discord.js');
 const INFO = require('../../guild_info/waver');
 
-const gmLog = 'https://tenor.com/view/touhou-fumo-gm-good-morning-gn-gif-3443276815897087102';
+const gmLog = '<| 再起動しました。|>';
 
 module.exports = {
     name: Events.ClientReady,

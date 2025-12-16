@@ -1,7 +1,7 @@
 const { Events , Client } = require('discord.js');
 const INFO = require('../../guild_info/waver');
 
-const gmLog = 'デバッグモードです。\nhttps://tenor.com/view/good-morning-green-the-pog-sanae-touhou-gif-26081192';
+const gmLog = '<| デバッグモードで起動しました。|>';
 
 module.exports = {
     name: Events.ClientReady,
