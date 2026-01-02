@@ -28,7 +28,7 @@ const dbg_mnger = new DebugManager(false); // プッシュ時は必ずfalseに�
 //-------------------<|commands|>-----------------------//
 const CommandManager = require("./command_manager");
 const cmd_mnger = new CommandManager();
-cmd_mnger.read_from_dir("./commands");
+cmd_mnger.read_from_dir("./commands", "./guild_info");
 
 //--------------------<|events|>------------------------//
 require("./event_manager2").set(client, "./events", dbg_mnger);
