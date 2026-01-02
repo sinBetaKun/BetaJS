@@ -33,7 +33,9 @@ module.exports = {
                     znSigns += INFO.emoji[str.charAt(j) + '_'];
                 }
             }
-            content += znSigns += '\n----------------\n'
+            content += znSigns;
+            if (i + 1 < array.length)
+                content += '\n----------------\n'
         }
 
         message.channel.send(content);

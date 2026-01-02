@@ -17,8 +17,8 @@ module.exports = {
             return;
         }
 
-        const array2 = array.map((str) => str.slice(5, -3).trim());
-        let content = `(from <@${message.member.id}>)\n----------------\n`;
+        const array2 = array.map((str) => str.slice(6, -3).trim());
+        let content = `(from <@${message.member.id}>)\n`;
         for (let i = 0; i < array.length; i++) {
             let str = array2[i];
             let znSigns = '';
@@ -31,7 +31,9 @@ module.exports = {
                     znSigns += INFO.emoji['z' + str.charAt(j)];
                 }
             }
-            content += znSigns += '\n----------------\n'
+            content += znSigns;
+            if (i + 1 < array.length)
+                content += '\n----------------\n'
         }
 
         message.channel.send(content);
