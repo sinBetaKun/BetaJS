@@ -17,31 +17,32 @@ module.exports = class CommandManager {
 
     /**
      * コマンドのモジュールが書かれたファイルを指定のフォルダから取得
-     * @param {string} dirName 
+     * @param {string} commandDirName コマンド格納フォルダ
+     * @param {string} guildInfoDirName サーバー情報格納フォルダ
      */
-    read_from_dir(dirName) {
-        const filesOfProject = fs.readdirSync(dirName)
+    read_from_dir(commandDirName, guildInfoDirName) {
+        const filesOfProject = fs.readdirSync(commandDirName)
         const pubCommandFiles = filesOfProject.filter(file => file.endsWith('.js'));
         for (const file of pubCommandFiles) {
-            const command = require(`${dirName}/${file}`);
+            const command = require(`${commandDirName}/${file}`);
             this.#global_cmd_dic[command.data.name] = command;
         }
 
         const infoFileName = "info.js";
-        const commandDirList = filesOfProject.filter(file => fs.statSync(path.join(dirName, file)).isDirectory())
+        const commandDirList = filesOfProject.filter(file => fs.statSync(path.join(commandDirName, file)).isDirectory())
         for (const dir of commandDirList) {
-            const gldCommandFiles = fs.readdirSync(`${dirName}/${dir}`).filter(file => file.endsWith('.js') && file !== infoFileName);
-            if (fs.existsSync(`${dirName}/${dir}/${infoFileName}`)) {
-                const info = require(`${dirName}/${dir}/${infoFileName}`);
+            const gldCommandFiles = fs.readdirSync(`${commandDirName}/${dir}`).filter(file => file.endsWith('.js') && file !== infoFileName);
+            if (fs.existsSync(`${guildInfoDirName}/${dir}.js`)) {
+                const info = require(`${guildInfoDirName}/${dir}.js`);
                 const gldCommands = {};
                 for (const file of gldCommandFiles) {
-                    const command = require(`${dirName}/${dir}/${file}`);
+                    const command = require(`${commandDirName}/${dir}/${file}`);
                     gldCommands[command.data.name] = command;
                 }
                 this.#guild_cmd_dic[info.gldID] = gldCommands;
             }
             else {
-                console.log(`warning: The guild command is not set because there is no “${infoFileName}” in the ${dir} directory.`)
+                console.log(`warning: The guild command is not set because there is no “${infoFileName}.js” in the ${guildInfoDirName} directory.`)
                 return false;
             }
         }
