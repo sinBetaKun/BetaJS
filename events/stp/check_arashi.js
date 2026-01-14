@@ -1,5 +1,5 @@
 const { Events , Message, Client, ChannelType } = require('discord.js');
-const INFO = require('../../guild_info/test1');
+const INFO = require('../../guild_info/stp');
 
 const scope = 2;
 const limit = 2;
@@ -22,12 +22,10 @@ module.exports = {
         let list = [];
         
         for (const [, channel] of channels) {
-            // テキストチャンネルのみ対象
+            // メッセージ履歴を読めるか確認
+            if (!channel.viewable) continue;
             if (channel?.type == ChannelType.GuildText || channel?.type == ChannelType.GuildVoice)
             {
-                // メッセージ履歴を読めるか確認
-                if (!channel.viewable) continue;
-
                 try {
                     const messages = await channel.messages.fetch({ limit: scope });
                     for (const [, m] of messages) {
@@ -40,11 +38,27 @@ module.exports = {
                     console.warn(`Failed to fetch messages from ${message.channel.name}`, err);
                 }
             }
+            else if(channel?.type == ChannelType.GuildForum){
+                const threads = await forumChannel.threads.fetchActive();
+                for (const [, threads] of threads){
+                    try {
+                        const messages = await threads.messages.fetch({ limit: scope });
+                        for (const [, m] of messages) {
+                            if (m.content == message.content && Date.now() - message.createdTimestamp <= time) {
+                                list.push(m);
+                            }
+                        }
+                    } catch (err) {
+                        // 権限不足・スレッド化などで失敗する場合がある
+                        console.warn(`Failed to fetch messages from ${message.channel.name}`, err);
+                    }
+                }
+            }
         }
 
         if (list.length > limit) {
             try {
-                message.member.roles.add(INFO.role.muted);
+                message.member.roles.add(INFO.roles.muted);
 
                 for (const m of list) {
                     m.delete();

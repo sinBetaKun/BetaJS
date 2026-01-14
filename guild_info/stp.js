@@ -17,6 +17,7 @@ module.exports = {
                 developer : '1289832456920502354',
             },
         },
+        muted : '1299085759311118407'
     },
     send_err(message, client) {
         client.channels.cache.get(this.chIDs.log).send({
