@@ -1,7 +1,7 @@
 const { Events , Message, Client, ChannelType } = require('discord.js');
 const INFO = require('../../guild_info/stp');
 
-const scope = 2;
+const scope = 3;
 const limit = 2;
 const time = 60_000;
 
@@ -58,13 +58,14 @@ module.exports = {
 
         if (list.length > limit) {
             try {
+                const str = message.content;
                 message.member.roles.add(INFO.roles.muted);
 
                 for (const m of list) {
                     m.delete();
                 }
 
-                INFO.send_log(`<@${message.author.id}> を荒らしの疑いでミュートしました。`, client);
+                INFO.send_log(`<@${message.author.id}> を荒らしの疑いでミュートしました。\nメッセージ内容は以下の通りです。\`\`\`\n${str}\n\`\`\``, client);
             } catch (err) {
                 // 権限不足・スレッド化などで失敗する場合がある
                 console.warn(`Failed to fetch messages from ${message.channel.name}`, err);
