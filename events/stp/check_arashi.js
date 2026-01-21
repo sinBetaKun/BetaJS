@@ -39,10 +39,10 @@ module.exports = {
                 }
             }
             else if(channel?.type == ChannelType.GuildForum){
-                const threads = await forumChannel.threads.fetchActive();
-                for (const [, threads] of threads){
+                const threads = (await channel.threads.fetchActive().then()).threads;
+                for (const [, thread] of threads){
                     try {
-                        const messages = await threads.messages.fetch({ limit: scope });
+                        const messages = await thread.messages.fetch({ limit: scope });
                         for (const [, m] of messages) {
                             if (m.content == message.content && Date.now() - message.createdTimestamp <= time) {
                                 list.push(m);
