@@ -17,6 +17,7 @@ module.exports = {
      */
     async execute(message, client) {
         if (message.guild.id !== INFO.gldID) return;
+        if (message.member.id == client.user.id) return;
 
         const channels = await message.guild.channels.fetch();
         let list = [];
