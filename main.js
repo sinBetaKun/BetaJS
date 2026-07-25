@@ -23,7 +23,7 @@ const client = new Client({
 });
 
 const DebugManager = require('./beta_modules/DebugManager')
-const dbg_mnger = new DebugManager(true); // プッシュ時は必ずfalseにする。
+const dbg_mnger = new DebugManager(false); // プッシュ時は必ずfalseにする。
 
 //-------------------<|commands|>-----------------------//
 const CommandManager = require("./command_manager");
