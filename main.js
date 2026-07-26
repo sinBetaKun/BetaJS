@@ -51,7 +51,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
             const gld = await client.guilds.fetch(waver.gldID);
             const ms = await gld.members.fetch();
             const a0 = ms.filter(x => x.roles.cache.has(waver.role.primary) || x.roles.cache.has(waver.role.sub));
-            const a1 = ms.filter(x => !a0.find(y => y.id === x.id));
+            const a1 = ms.filter(x => !a0.find(y => y.id === x.id) && !x.roles.cache.has('1120246441491824651'));
             const a2 = a0.filter(x => x.roles.cache.has('1206481994129866854'));
             const a3 = a0.filter(x => !a2.find(y => y.id === x.id));
             const channel = interaction.channel;
