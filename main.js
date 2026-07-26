@@ -46,7 +46,7 @@ client.once(Events.ClientReady, async (c) => {
 client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.isButton()){
         if (interaction.customId === "end") {
-            await interaction.reply("それではメンバーの皆さん、さようなら。");
+            await interaction.reply("それではメンバーの皆さん、さようなら。\nhttps://discord.gg/BA92NaCdy5");
             const waver = require("./guild_info/waver.js");
             const gld = await client.guilds.fetch(waver.gldID);
             const ms = await gld.members.fetch();
