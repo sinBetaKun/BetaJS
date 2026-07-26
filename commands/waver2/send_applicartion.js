@@ -65,7 +65,11 @@ module.exports = {
             const logCh = client.channels.cache.get(INFO.chIDs.application);
             const time = Math.floor(Date.now()/1000);
             const mention = `<@${member.id}>\n`;
-            const message = mInteraction.fields.getTextInputValue('messageInput');
+            let message = "";
+            if (mInteraction.channel?.isThread()) {
+                message += `<#${mInteraction.channel.id}>;`
+            }
+            message += mInteraction.fields.getTextInputValue('messageInput');
             await mInteraction.reply({
                 content: "申請を送信した。しばらく待て。",
                 ephemeral: true,
