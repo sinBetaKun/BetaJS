@@ -14,8 +14,7 @@ const all_message_fetcher = require('../../beta_modules/all_message_fetcher');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName(CommandName)
-        .setDescription("サーバーを終了するボタンを生成します。")
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDescription("サーバーを終了します")
     ,
     /**
     * @param {Client} client クライアント
