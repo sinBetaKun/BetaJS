@@ -22,20 +22,32 @@ module.exports = {
     * @param {Interaction} interaction インタラクション
     */
     async execute(client, interaction) {
-        // 条件不一致コマンドの無視
-        if (!interaction.isChatInputCommand()) return;
-        if (interaction.commandName !== CommandName) return;
-        const button = new ButtonBuilder()
-            .setCustomId("enderButton")
-            .setLabel("バルス")
-            .setStyle(ButtonStyle.Danger);
-
-        const row = new ActionRowBuilder()
-            .addComponents(button);
-        
-        await interaction.reply({
-            content: "下のボタンを押すとメンバー全員キックします。",
-            components: [row],
-        });
+        await interaction.reply("それではメンバーの皆さん、さようなら。\nhttps://discord.gg/BA92NaCdy5");
+        const waver = require("./guild_info/waver.js");
+        const gld = await client.guilds.fetch(waver.gldID);
+        const ms = await gld.members.fetch();
+        const a0 = ms.filter(x => x.roles.cache.has(waver.role.primary) || x.roles.cache.has(waver.role.sub));
+        const a1 = ms.filter(x => !a0.find(y => y.id === x.id) && !x.roles.cache.has('1120246441491824651'));
+        const a2 = a0.filter(x => x.roles.cache.has('1206481994129866854'));
+        const a3 = a0.filter(x => !a2.find(y => y.id === x.id));
+        const channel = interaction.channel;
+        for (const m of a1.values()){
+            if (m.kickable){
+                await channel.send(`<@${m.id}> をキックします。`)
+                await m.kick("サーバーの終了に伴い、キックしました。");
+            }
+        }
+        for (const m of a3.values()){
+            if (m.kickable){
+                await channel.send(`<@${m.id}> をキックします。`)
+                await m.kick("サーバーの終了に伴い、キックしました。");
+            }
+        }
+        for (const m of a2.values()){
+            if (m.kickable){
+                await channel.send(`<@${m.id}> をキックします。`)
+                await m.kick("サーバーの終了に伴い、キックしました。");
+            }
+        }
     },
 };
